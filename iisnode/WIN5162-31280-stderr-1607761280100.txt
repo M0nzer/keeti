@@ -1,0 +1,7 @@
+Sat, 12 Dec 2020 08:21:22 GMT tedious deprecated The default value for `config.options.enableArithAbort` will change from `false` to `true` in the next major version of `tedious`. Set the value to `true` or `false` explicitly to silence this message. at node_modules\mssql\lib\tedious\connection-pool.js:61:23
+(node:31280) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(node:31280) UnhandledPromiseRejectionWarning: TypeError: DB.close is not a function
+    at getAll (h:\root\home\makkimadani-001\www\ss\Keeti\index.js:59:16)
+    at async execute (h:\root\home\makkimadani-001\www\ss\Keeti\index.js:64:22)
+(node:31280) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:31280) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.

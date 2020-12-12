@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>iisnode logs</title>
+    <style type="text/css">
+        body
+        {
+            font-family: "Trebuchet MS" , Arial, Helvetica, sans-serif;
+        }
+        table
+        {
+            border-collapse: collapse;
+        }
+        td, th
+        {
+            border: 1px solid lightgray;
+            padding: 3px 7px 2px 7px;
+        }
+        th
+        {
+            text-align: left;
+            padding-top: 5px;
+            padding-bottom: 4px;
+            background-color: Gray;
+            color: #ffffff;
+        }
+        td.stderr
+        {
+            color: Red;
+        }
+    </style>
+</head>
+<body>
+    <table id="logFilesTable">
+        <tr>
+            <th>
+                Computer name
+            </th>
+            <th>
+                PID
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Created
+            </th>
+            <th>
+                Link
+            </th>
+        </tr>
+    </table>
+    <p id="lastUpdated"></p>
+    <script type="text/javascript">
+
+        // this is replaced with actual data at runtime by code in interceptor.js
+        var logFiles = [{"file":"WIN5162-11548-stderr-1607614412793.txt","computername":"WIN5162","pid":11548,"type":"stderr","created":1607614412793},{"file":"WIN5162-11548-stdout-1607614412778.txt","computername":"WIN5162","pid":11548,"type":"stdout","created":1607614412778},{"file":"WIN5162-13944-stderr-1607761433933.txt","computername":"WIN5162","pid":13944,"type":"stderr","created":1607761433933},{"file":"WIN5162-13944-stdout-1607761433917.txt","computername":"WIN5162","pid":13944,"type":"stdout","created":1607761433917},{"file":"WIN5162-16260-stderr-1607758767750.txt","computername":"WIN5162","pid":16260,"type":"stderr","created":1607758767750},{"file":"WIN5162-16260-stdout-1607758767734.txt","computername":"WIN5162","pid":16260,"type":"stdout","created":1607758767734},{"file":"WIN5162-23916-stderr-1607761511732.txt","computername":"WIN5162","pid":23916,"type":"stderr","created":1607761511732},{"file":"WIN5162-23916-stdout-1607761511716.txt","computername":"WIN5162","pid":23916,"type":"stdout","created":1607761511716},{"file":"WIN5162-25316-stderr-1607758767562.txt","computername":"WIN5162","pid":25316,"type":"stderr","created":1607758767562},{"file":"WIN5162-25316-stdout-1607758767500.txt","computername":"WIN5162","pid":25316,"type":"stdout","created":1607758767500},{"file":"WIN5162-25936-stderr-1607762135507.txt","computername":"WIN5162","pid":25936,"type":"stderr","created":1607762135507},{"file":"WIN5162-25936-stdout-1607762135476.txt","computername":"WIN5162","pid":25936,"type":"stdout","created":1607762135476},{"file":"WIN5162-26352-stderr-1607761993567.txt","computername":"WIN5162","pid":26352,"type":"stderr","created":1607761993567},{"file":"WIN5162-26352-stdout-1607761993552.txt","computername":"WIN5162","pid":26352,"type":"stdout","created":1607761993552},{"file":"WIN5162-30744-stderr-1607761562764.txt","computername":"WIN5162","pid":30744,"type":"stderr","created":1607761562764},{"file":"WIN5162-30744-stdout-1607761562748.txt","computername":"WIN5162","pid":30744,"type":"stdout","created":1607761562748},{"file":"WIN5162-31280-stderr-1607761280100.txt","computername":"WIN5162","pid":31280,"type":"stderr","created":1607761280100},{"file":"WIN5162-31280-stdout-1607761280069.txt","computername":"WIN5162","pid":31280,"type":"stdout","created":1607761280069},{"file":"WIN5162-37640-stderr-1607762356347.txt","computername":"WIN5162","pid":37640,"type":"stderr","created":1607762356347},{"file":"WIN5162-37640-stdout-1607762356332.txt","computername":"WIN5162","pid":37640,"type":"stdout","created":1607762356332},{"file":"WIN5162-43480-stderr-1607762146570.txt","computername":"WIN5162","pid":43480,"type":"stderr","created":1607762146570},{"file":"WIN5162-43480-stdout-1607762146555.txt","computername":"WIN5162","pid":43480,"type":"stdout","created":1607762146555}];
+        var lastUpdated = 1607762359113;
+        var date = new Date();
+
+        date.setTime(lastUpdated);
+        document.getElementById('lastUpdated').innerHTML = 'Index was last updated ' + date;
+
+        logFiles.sort(function (a, b) {
+            return b.created - a.created;
+        });
+
+        var logFilesTable = document.getElementById("logFilesTable");
+        for (var i = 0; i < logFiles.length; i++) {
+            var logFile = logFiles[i];
+            date.setTime(logFile.created);
+            var row = logFilesTable.insertRow(-1);
+            var computerNameCell = row.insertCell(0);
+            var pidCell = row.insertCell(1);
+            var typeCell = row.insertCell(2);
+            var dateCell = row.insertCell(3);
+            var logCell = row.insertCell(4);
+            computerNameCell.innerHTML = logFile.computername;
+            pidCell.innerHTML = logFile.pid.toString();
+            typeCell.innerHTML = logFile.type;
+            typeCell.setAttribute('class', logFile.type);
+            dateCell.innerHTML = date.toString();
+            logCell.innerHTML = '<a href="' + logFile.file + '">log</a>';
+        };
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+ConnectionError: Login failed for user 'citcsudan2_SQLLogin_1'.
+    at Connection.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\mssql\lib\tedious\connection-pool.js:68:17)
+    at Object.onceWrapper (events.js:418:26)
+    at Connection.emit (events.js:311:20)
+    at Connection.message (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\connection.js:2148:18)
+    at Connection.dispatchEvent (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\connection.js:1279:15)
+    at MessageIO.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\connection.js:1139:14)
+    at MessageIO.emit (events.js:311:20)
+    at Message.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\message-io.js:46:14)
+    at Message.emit (events.js:323:22)
+    at endReadableNT (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_readable.js:1094:12) {
+  code: 'ELOGIN',
+  originalError: ConnectionError: Login failed for user 'citcsudan2_SQLLogin_1'.
+      at ConnectionError (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\errors.js:13:12)
+      at Parser.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\connection.js:850:51)
+      at Parser.emit (events.js:311:20)
+      at Parser.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\token\token-stream-parser.js:37:14)
+      at Parser.emit (events.js:311:20)
+      at addChunk (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_readable.js:298:12)
+      at readableAddChunk (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_readable.js:280:11)
+      at Parser.Readable.push (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_readable.js:241:10)
+      at Parser.Transform.push (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_transform.js:139:32)
+      at doneParsing (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\token\stream-parser.js:122:14) {
+    message: "Login failed for user 'citcsudan2_SQLLogin_1'.",
+    code: 'ELOGIN'
+  },
+  name: 'ConnectionError'
+}
+Database connection failed! ConnectionError: Login failed for user 'citcsudan2_SQLLogin_1'.
+    at Connection.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\mssql\lib\tedious\connection-pool.js:68:17)
+    at Object.onceWrapper (events.js:418:26)
+    at Connection.emit (events.js:311:20)
+    at Connection.message (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\connection.js:2148:18)
+    at Connection.dispatchEvent (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\connection.js:1279:15)
+    at MessageIO.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\connection.js:1139:14)
+    at MessageIO.emit (events.js:311:20)
+    at Message.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\message-io.js:46:14)
+    at Message.emit (events.js:323:22)
+    at endReadableNT (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_readable.js:1094:12) {
+  code: 'ELOGIN',
+  originalError: ConnectionError: Login failed for user 'citcsudan2_SQLLogin_1'.
+      at ConnectionError (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\errors.js:13:12)
+      at Parser.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\connection.js:850:51)
+      at Parser.emit (events.js:311:20)
+      at Parser.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\token\token-stream-parser.js:37:14)
+      at Parser.emit (events.js:311:20)
+      at addChunk (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_readable.js:298:12)
+      at readableAddChunk (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_readable.js:280:11)
+      at Parser.Readable.push (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_readable.js:241:10)
+      at Parser.Transform.push (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_transform.js:139:32)
+      at doneParsing (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\token\stream-parser.js:122:14) {
+    message: "Login failed for user 'citcsudan2_SQLLogin_1'.",
+    code: 'ELOGIN'
+  },
+  name: 'ConnectionError'
+}
+Error querying database TypeError: DB.request is not a function
+    at getAll (h:\root\home\makkimadani-001\www\ss\Keeti\index.js:49:37)
+    at async execute (h:\root\home\makkimadani-001\www\ss\Keeti\index.js:64:22)
+Database connection failed! ConnectionError: Login failed for user 'citcsudan2_SQLLogin_1'.
+    at Connection.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\mssql\lib\tedious\connection-pool.js:68:17)
+    at Object.onceWrapper (events.js:418:26)
+    at Connection.emit (events.js:311:20)
+    at Connection.message (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\connection.js:2148:18)
+    at Connection.dispatchEvent (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\connection.js:1279:15)
+    at MessageIO.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\connection.js:1139:14)
+    at MessageIO.emit (events.js:311:20)
+    at Message.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\message-io.js:46:14)
+    at Message.emit (events.js:323:22)
+    at endReadableNT (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_readable.js:1094:12) {
+  code: 'ELOGIN',
+  originalError: ConnectionError: Login failed for user 'citcsudan2_SQLLogin_1'.
+      at ConnectionError (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\errors.js:13:12)
+      at Parser.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\connection.js:850:51)
+      at Parser.emit (events.js:311:20)
+      at Parser.<anonymous> (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\token\token-stream-parser.js:37:14)
+      at Parser.emit (events.js:311:20)
+      at addChunk (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_readable.js:298:12)
+      at readableAddChunk (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_readable.js:280:11)
+      at Parser.Readable.push (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_readable.js:241:10)
+      at Parser.Transform.push (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\readable-stream\lib\_stream_transform.js:139:32)
+      at doneParsing (h:\root\home\makkimadani-001\www\ss\Keeti\node_modules\tedious\lib\token\stream-parser.js:122:14) {
+    message: "Login failed for user 'citcsudan2_SQLLogin_1'.",
+    code: 'ELOGIN'
+  },
+  name: 'ConnectionError'
+}
+Error querying database TypeError: DB.request is not a function
+    at getAll (h:\root\home\makkimadani-001\www\ss\Keeti\index.js:49:37)
+    at async execute (h:\root\home\makkimadani-001\www\ss\Keeti\index.js:64:22)
