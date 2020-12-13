@@ -1,12 +1,15 @@
 // let sql = require("mssql");
 
     // config for your database
-// let config = {
-//     user: 'citcsudan2_SQLLogin_1',
-//     password: '1234554321',
-//     server: 'jazatt2020.mssql.somee.com', 
-//     database: 'jazatt2020' 
-// };
+const config = {
+    user: 'citcsudan2_SQLLogin_1',
+    password: '12345asdfg',
+    server: 'jazatt2020.mssql.somee.com',
+    database: 'jazatt2020',
+    options: {
+        encrypt: true
+    }
+}
 
     // connect to your database
 // sql.connect(config, function (err) {
@@ -15,4 +18,4 @@
 
 // const request = new sql.Request();
 
-// module.exports = request;
+module.exports = config;
