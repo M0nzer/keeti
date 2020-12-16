@@ -1,9 +1,8 @@
 //Setup Express
 const express = require('express');
 const app = express();
-var cors = require('cors')
+//handle Json
 app.use(express.json());
-app.use(cors())
 
 //0923595393
 //1234
@@ -14,6 +13,7 @@ const swRoute = require('./routers/selectWhere.router'),
       dqRoute = require('./routers/delete.router'),
       authRoute = require('./routers/auth.router');
 //Routers
+//Note: You Can't Change the keeti In The url Because of The Directory In The Server (Windows Server); That's it Thanks
 app.use('/keeti' , swRoute);
 app.use('/keeti' , uqRoute);
 app.use('/keeti' , isRoute);
@@ -37,4 +37,4 @@ app.delete('*', (req, res) => {
 });
 
 //listening at 3000
-app.listen(3000);
+app.listen(process.env.PORT);
