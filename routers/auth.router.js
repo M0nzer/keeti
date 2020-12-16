@@ -19,7 +19,7 @@ authRouter.get('/auth', (req, res) => {
              return pool;
          }
          catch(err) {
-             console.log('Database connection failed!', err);
+             console.log('Database connection failed!!\n Error Details:\n', err);
      
              return err;
          }
@@ -34,7 +34,7 @@ authRouter.get('/auth', (req, res) => {
              return result.recordset;
          }
          catch (err) {
-             console.log('Error querying database', err);
+            console.log('Error querying database!!\n Error Details:\n', err);
      
              return err;
          }
