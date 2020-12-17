@@ -6,40 +6,27 @@ dqRouter.use(express.json());
 const sql = require("mssql");
 //Query Builder
 function buildDeleteQuery(query , fields , values){
-    let part = [];
-    let tempPart = '';
-    let partString = '';
+
+    query += 'WHERE ';
     
-        for(let index = 0; index <= fields.length-1; index++){
-            for(let dex = 0; dex <= values.length-1; dex++){
-                if (index == dex){
-                    tempPart = `${fields[index]} = '${values[dex]}' `
-                    part.push(tempPart);
-                }
+    for(let ind = 0; ind <= fields.length-1; ind++){
+        if (ind < fields.length-1){
+            query += ` ${fields[ind]} = '${values[ind]}' ,`;
+            } else if (ind == fields.length-1){
+                query += ` ${fields[ind]} = '${values[ind]}'`;
             }
-        }
-    
-        for(let ind = 0; ind <= part.length-1; ind++){
-            if(ind == 0 && ind == values.length-1){
-                partString += `${query} ${part[ind]}`;
-            }else {
-                if (ind == 0 && values.length != 1){
-                    partString += `${query} ${part[ind]} and`;
-                } else if (ind != 0 && ind != values.length-1){
-                    partString += ` ${part[ind]} and`;
-                } else if (ind == values.length-1){
-                    partString += ` ${part[ind]}`;
-                }
-            }
-    
-        }
-    console.log(partString);
-    return partString;
-    
+       }
+    console.log(query);
+    return query;   
 }
 
 dqRouter.delete('/dq', (req , res)=>{
-    let guery = buildDeleteQuery(req.query.que ,req.query.field , req.query.value);
+    let fields = req.query.field;
+    let values = req.query.value;
+    if (fields.length != values.length || fields === undefined){
+        return res.status(500).json({})
+    }
+    let query = buildDeleteQuery(req.query.que ,fields , values);
         async function connectDB() {
              const pool = new sql.ConnectionPool(db);
          
@@ -60,7 +47,7 @@ dqRouter.delete('/dq', (req , res)=>{
              const DB = await connectDB();
          
              try {
-                 const result = await DB.request().query(guery);
+                 const result = await DB.request().query(query);
          
                  return result.recordset;
              }

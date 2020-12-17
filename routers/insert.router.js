@@ -7,48 +7,45 @@ const sql = require("mssql");
 //Query Builder
 function buildInsertQuery(query , fields , values){
     for (let index = 0; index <= fields.length-1; index++){
-        if(index == 0 && index == fields.length-1){
-            let item = '(' + fields[index] + ') '; 
-            query += item; 
+        if(fields.length == 1){
+            query += `( ${fields[index]} ) `;  
         } else {
             if (index == 0){
-                let item = '( ' + fields[index] + ', '; 
-                query += item; 
-              } else if (index != 0 && index != fields.length-1){
-                  let midItem = fields[index] + ', ';
-                  query += midItem;
+                query +=`( ${fields[index]} , `; 
+              } else if (index < fields.length-1){
+                query += `${fields[index]} , `;
               } else if (index == fields.length-1){
-                  let lastItem = fields[index] + ' )';
-                  query+= lastItem;
+                query += `${fields[index]} )`;
               }
         }
         
     }
-query += ' VALUES ';
+    query += ' VALUES ';
 
     for (let index = 0; index <= values.length-1; index++){
-        if(index == 0 && index == values.length-1){
-            let item = `('${values[index]}') `; 
-            query += item; 
+        if(values.length == 1){
+            query +=`( '${values[index]}') `; 
         } else {
             if (index == 0){
-                let item = `( '${values[index]}' , `; 
-                query += item; 
-              } else if (index != 0 && index != values.length-1){
-                  let midItem = ` '${values[index]}' , `;
-                  query += midItem;
+                query += `( '${values[index]}' , `; 
+              } else if (index < values.length-1){
+                query += `'${values[index]}' , `;
               } else if (index == values.length-1){
-                  let lastItem =` '${values[index]}' )`;
-                  query+= lastItem;
+                query +=`'${values[index]}' )`;
               }
         }
     }
-console.log(query)
-return query;
+    console.log(query);
+    return query;
 }
 
 isRouter.post('/is' , (req , res)=>{
-    let guery = buildInsertQuery(req.query.que ,req.query.field , req.query.value);
+    let fields = req.query.field;
+    let values = req.query.value;
+    if (fields.length != values.length || fields === undefined){
+        return res.status(500).json({})
+    }
+    let query = buildInsertQuery(req.query.que ,fields , values);
         async function connectDB() {
              const pool = new sql.ConnectionPool(db);
          
@@ -69,7 +66,7 @@ isRouter.post('/is' , (req , res)=>{
              const DB = await connectDB();
          
              try {
-                 const result = await DB.request().query(guery);
+                 const result = await DB.request().query(query);
          
                  return result.recordset;
              }

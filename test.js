@@ -1,26 +1,22 @@
-let que = 'SELECT * FROM SET_users ';
-//'nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone'
-//'monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505'
-let field = [];
-let value = [];
+let que = 'DELETE FROM SET_users ';
+//
+//
+let field = ['nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone'];
+let value = ['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505'];
 let condField = ['nameEN' , 'nameAR'];
 let condValue = ['monzer' , '---'];
 
 function buildInsertQuery(query , fields , values){
     for (let index = 0; index <= fields.length-1; index++){
-        if(index == 0 && index == fields.length-1){
-            let item = '(' + fields[index] + ') '; 
-            query += item; 
+        if(fields.length == 1){
+            query += `( ${fields[index]} ) `;  
         } else {
             if (index == 0){
-                let item = '( ' + fields[index] + ', '; 
-                query += item; 
-              } else if (index != 0 && index != fields.length-1){
-                  let midItem = fields[index] + ', ';
-                  query += midItem;
+                query +=`( ${fields[index]} , `; 
+              } else if (index < fields.length-1){
+                query += `${fields[index]} , `;
               } else if (index == fields.length-1){
-                  let lastItem = fields[index] + ' )';
-                  query+= lastItem;
+                query += `${fields[index]} )`;
               }
         }
         
@@ -28,19 +24,15 @@ function buildInsertQuery(query , fields , values){
 query += ' VALUES ';
 
     for (let index = 0; index <= values.length-1; index++){
-        if(index == 0 && index == values.length-1){
-            let item = `('${values[index]}') `; 
-            query += item; 
+        if(values.length == 1){
+            query +=`( '${values[index]}') `; 
         } else {
             if (index == 0){
-                let item = `( '${values[index]}' , `; 
-                query += item; 
-              } else if (index != 0 && index != values.length-1){
-                  let midItem = ` '${values[index]}' ,  `;
-                  query += midItem;
+                query += `( '${values[index]}' , `; 
+              } else if (index < values.length-1){
+                query += `'${values[index]}' , `;
               } else if (index == values.length-1){
-                  let lastItem =` '${values[index]}' )`;
-                  query+= lastItem;
+                query +=`'${values[index]}' )`;
               }
         }
     }
@@ -52,113 +44,64 @@ function buildSelectWhereQuery(query , fields , values){
     if(fields.length > 0){
         query += `WHERE `;
         for(let ind = 0; ind <= fields.length-1; ind++){
-                 if (ind < fields.length-1){
-                    query += ` ${fields[ind]} = '${values[ind]}' and`;
-                } else if (ind == fields.length-1){
-                    query += ` ${fields[ind]} = '${values[ind]}'`;
-                }
+            if (ind < fields.length-1){
+                query += ` ${fields[ind]} = '${values[ind]}' and`;
+            } else if (ind == fields.length-1){
+                query += ` ${fields[ind]} = '${values[ind]}'`;
+            }
         }
     }
-    console.log(query)
     return query;
 }
 
 function buildUpdateQuery(query , fields , values , condFields , condValues){
-    let part = [];
-    let tempPart = '';
-    let partString = '';
-    let fullPart = [];
-    let fullString = '';
-        for(let index = 0; index <= fields.length-1; index++){
-            for(let dex = 0; dex <= values.length-1; dex++){
-                if (index == dex){
-                    tempPart = `${fields[index]} = '${values[dex]}' `
-                    part.push(tempPart);
-                }
-            }
-        }
-    
-        for(let ind = 0; ind <= part.length-1; ind++){
-            if(ind == 0 && ind == values.length-1){
-                partString += `${part[ind]}`;
-            }else {
-                if (ind == 0 && values.length != 1){
-                    partString += `${query} ${part[ind]} ,`;
-                } else if (ind != 0 && ind != values.length-1){
-                    partString += ` ${part[ind]} ,`;
-                } else if (ind == values.length-1){
-                    partString += ` ${part[ind]}`;
-                }
-            }
-    
-        }
 
-        fullString = partString + 'WHERE ';
-
-        for(let index = 0; index <= condFields.length-1; index++){
-            for(let dex = 0; dex <= condValues.length-1; dex++){
-                if (index == dex){
-                    tempPart = `${condFields[index]} = '${condValues[dex]}' `
-                    fullPart.push(tempPart);
-                }
-            }
+    for(let ind = 0; ind <= fields.length-1; ind++){
+        if (ind < fields.length-1){
+            query += ` ${fields[ind]} = '${values[ind]}' ,`;
+        } else if (ind == fields.length-1){
+            query += ` ${fields[ind]} = '${values[ind]}'`;
         }
-    
-        for(let ind = 0; ind <= fullPart.length-1; ind++){
-            if(ind == 0 && ind == condValues.length-1){
-                fullString += `${fullPart[ind]}`;
-            }else {
-                if (ind == 0 && condValues.length != 1){
-                    fullString += `${fullPart[ind]} and`;
-                } else if (ind != 0 && ind != condValues.length-1){
-                    fullString += ` ${fullPart[ind]} and`;
-                } else if (ind == condValues.length-1){
-                    fullString += ` ${fullPart[ind]}`;
-                }
-            }
-    
+   }
+
+    query += ' WHERE';
+
+    for(let ind = 0; ind <= condFields.length-1; ind++){
+        if (ind < condFields.length-1){
+            query += ` ${condFields[ind]} = '${condValues[ind]}' ,`;
+        } else if (ind == condField.length-1){
+            query += ` ${condFields[ind]} = '${condValues[ind]}'`;
         }
+   }
 
-
-    return fullString;
-    
+    return query;
 }
 
-    function buildDeleteQuery(query , fields , values){
-        let part = [];
-        let tempPart = '';
-        let partString = '';
-        
-            for(let index = 0; index <= fields.length-1; index++){
-                for(let dex = 0; dex <= values.length-1; dex++){
-                    if (index == dex){
-                        tempPart = `${fields[index]} = '${values[dex]}' `
-                        part.push(tempPart);
-                    }
-                }
+function buildDeleteQuery(query , fields , values){
+
+    query += 'WHERE ';
+    for(let ind = 0; ind <= fields.length-1; ind++){
+        if (ind < fields.length-1){
+            query += ` ${fields[ind]} = '${values[ind]}' ,`;
+            } else if (ind == fields.length-1){
+                query += ` ${fields[ind]} = '${values[ind]}'`;
             }
+       }
         
-            for(let ind = 0; ind <= part.length-1; ind++){
-                if(ind == 0 && ind == values.length-1){
-                    partString += `${part[ind]}`;
-                }else {
-                    if (ind == 0 && values.length != 1){
-                        partString += `${query} ${part[ind]} and`;
-                    } else if (ind != 0 && ind != values.length-1){
-                        partString += ` ${part[ind]} and`;
-                    } else if (ind == values.length-1){
-                        partString += ` ${part[ind]}`;
-                    }
-                }
+    return query;
         
-            }
-        
-        return partString;
-        
-        }
+}
 
 
 console.log(`
+Result of The BuildDeleteQuery function:
+${buildDeleteQuery(que , field , value)}
+
+the output in buildInsertIntoQuery will be:
+${buildInsertQuery(que , field , value)}
+
+Result of The BuildUpdateQuery function:
+${buildUpdateQuery(que , field , value , condField , condValue)}
 
 the output in buildSelectWhereQuery will be:
 ${buildSelectWhereQuery(que , field , value)}
@@ -177,14 +120,8 @@ you insert fields to the function like this:
 ${field}
 you insert values to the function like this:
 ${value}
-the output in buildSelectWhereQuery will be:
-${buildInsertQuery(que , field , value)}
 condField for update query builder is:
 ${condField}
 condValues for update query builder is:
 ${condValue}
-Result of The BuildUpdateQuery function:
-${buildUpdateQuery(que , field , value , condField , condValue)}
-Result of The BuildDeleteQuery function:
-${buildDeleteQuery(que , field , value)}
 */

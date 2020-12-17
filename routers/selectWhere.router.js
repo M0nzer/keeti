@@ -10,11 +10,11 @@ function buildSelectWhereQuery(query , fields , values){
     if(fields.length > 0){
         query += `WHERE `;
         for(let ind = 0; ind <= fields.length-1; ind++){
-                 if (ind < fields.length-1){
-                    query += ` ${fields[ind]} = '${values[ind]}' and`;
-                } else if (ind == fields.length-1){
-                    query += ` ${fields[ind]} = '${values[ind]}'`;
-                }
+            if (ind < fields.length-1){
+                query += ` ${fields[ind]} = '${values[ind]}' and`;
+            } else if (ind == fields.length-1){
+                query += ` ${fields[ind]} = '${values[ind]}'`;
+            }
         }
     }
     console.log(query);
@@ -24,10 +24,10 @@ function buildSelectWhereQuery(query , fields , values){
     swRouter.get('/sw' , (req , res)=>{
         let fields = req.query.field;
         let values = req.query.value;
-        if (fields.length != values.length){
+        if (fields.length != values.length || fields === undefined){
             return res.status(500).json({})
         }
-        let guery = buildSelectWhereQuery(req.query.que ,fields , values);
+        let query = buildSelectWhereQuery(req.query.que ,fields , values);
             async function connectDB() {
                  const pool = new sql.ConnectionPool(db);
              
@@ -48,7 +48,7 @@ function buildSelectWhereQuery(query , fields , values){
                  const DB = await connectDB();
              
                  try {
-                     const result = await DB.request().query(guery);
+                     const result = await DB.request().query(query);
              
                      return result.recordset;
                  }
