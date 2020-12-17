@@ -39,4 +39,4 @@ app.delete('*', (req, res) => {
 });
 
 //listening at 3000
-app.listen(3000);
+app.listen(process.env.PORT);
