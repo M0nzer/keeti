@@ -6,41 +6,28 @@ swRouter.use(express.json());
 const sql = require("mssql");
 
 //Query Builder
-function buildSelectWhereQuery(query , fields , values){
-    let part = [];
-    let tempPart = '';
-    let partString = '';
-    
-        for(let index = 0; index <= fields.length-1; index++){
-            for(let dex = 0; dex <= values.length-1; dex++){
-                if (index == dex){
-                    tempPart = `${fields[index]} = '${values[dex]}' `
-                    part.push(tempPart);
+function buildSelectWhereQuery(query , fields , values){    
+    if(fields.length > 0){
+        query += `WHERE `;
+        for(let ind = 0; ind <= fields.length-1; ind++){
+                 if (ind < fields.length-1){
+                    query += ` ${fields[ind]} = '${values[ind]}' and`;
+                } else if (ind == fields.length-1){
+                    query += ` ${fields[ind]} = '${values[ind]}'`;
                 }
-            }
         }
-    
-        for(let ind = 0; ind <= part.length-1; ind++){
-            if(ind == 0 && ind == values.length-1){
-                partString += `${query} ${part[ind]}`;
-            }else {
-                if (ind == 0 && values.length != 1){
-                    partString += `${query} ${part[ind]} and`;
-                } else if (ind != 0 && ind != values.length-1){
-                    partString += ` ${part[ind]} and`;
-                } else if (ind == values.length-1){
-                    partString += ` ${part[ind]}`;
-                }
-            }
-    
-        }
-    console.log(partString)
-    return partString;
-    
     }
+    console.log(query);
+    return query;
+}
 
     swRouter.get('/sw' , (req , res)=>{
-        let guery = buildSelectWhereQuery(req.query.que ,req.query.field , req.query.value);
+        let fields = req.query.field;
+        let values = req.query.value;
+        if (fields.length != values.length){
+            return res.status(500).json({})
+        }
+        let guery = buildSelectWhereQuery(req.query.que ,fields , values);
             async function connectDB() {
                  const pool = new sql.ConnectionPool(db);
              

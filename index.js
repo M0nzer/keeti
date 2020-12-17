@@ -1,5 +1,7 @@
 //Setup Express
 const express = require('express');
+const cors = require('cors');
+app.use(cors());
 const app = express();
 //handle Json
 app.use(express.json());
@@ -37,4 +39,4 @@ app.delete('*', (req, res) => {
 });
 
 //listening at 3000
-app.listen(process.env.PORT);
+app.listen(3000);

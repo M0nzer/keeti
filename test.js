@@ -1,6 +1,8 @@
-let que = 'DELETE FROM SET_users WHERE ';
-let field = ['nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone'];
-let value = ['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505'];
+let que = 'SELECT * FROM SET_users ';
+//'nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone'
+//'monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505'
+let field = [];
+let value = [];
 let condField = ['nameEN' , 'nameAR'];
 let condValue = ['monzer' , '---'];
 
@@ -46,37 +48,19 @@ query += ' VALUES ';
 return query;
 }
 
-function buildSelectWhereQuery(query , fields , values){
-let part = [];
-let tempPart = '';
-let partString = '';
-
-    for(let index = 0; index <= fields.length-1; index++){
-        for(let dex = 0; dex <= values.length-1; dex++){
-            if (index == dex){
-                tempPart = `${fields[index]} = '${values[dex]}' `
-                part.push(tempPart);
-            }
+function buildSelectWhereQuery(query , fields , values){    
+    if(fields.length > 0){
+        query += `WHERE `;
+        for(let ind = 0; ind <= fields.length-1; ind++){
+                 if (ind < fields.length-1){
+                    query += ` ${fields[ind]} = '${values[ind]}' and`;
+                } else if (ind == fields.length-1){
+                    query += ` ${fields[ind]} = '${values[ind]}'`;
+                }
         }
     }
-
-    for(let ind = 0; ind <= part.length-1; ind++){
-        if(ind == 0 && ind == values.length-1){
-            partString += `${part[ind]}`;
-        }else {
-            if (ind == 0 && values.length != 1){
-                partString += `${query} ${part[ind]} and`;
-            } else if (ind != 0 && ind != values.length-1){
-                partString += ` ${part[ind]} and`;
-            } else if (ind == values.length-1){
-                partString += ` ${part[ind]}`;
-            }
-        }
-
-    }
-
-return partString;
-
+    console.log(query)
+    return query;
 }
 
 function buildUpdateQuery(query , fields , values , condFields , condValues){
@@ -138,7 +122,7 @@ function buildUpdateQuery(query , fields , values , condFields , condValues){
 
     return fullString;
     
-    }
+}
 
     function buildDeleteQuery(query , fields , values){
         let part = [];
@@ -175,14 +159,24 @@ function buildUpdateQuery(query , fields , values , condFields , condValues){
 
 
 console.log(`
+
+the output in buildSelectWhereQuery will be:
+${buildSelectWhereQuery(que , field , value)}
+`)
+
+//DELETE FROM table_name WHERE condition;
+//UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;
+//INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...);
+//value[]
+//que
+
+/*
 you insert query to the function like this:
 ${que}
 you insert fields to the function like this:
 ${field}
 you insert values to the function like this:
 ${value}
-the output in buildSelectWhereQuery will be:
-${buildSelectWhereQuery(que , field , value)}
 the output in buildSelectWhereQuery will be:
 ${buildInsertQuery(que , field , value)}
 condField for update query builder is:
@@ -193,10 +187,4 @@ Result of The BuildUpdateQuery function:
 ${buildUpdateQuery(que , field , value , condField , condValue)}
 Result of The BuildDeleteQuery function:
 ${buildDeleteQuery(que , field , value)}
-`)
-
-//DELETE FROM table_name WHERE condition;
-//UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;
-//INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...);
-//value[]
-//que
+*/
