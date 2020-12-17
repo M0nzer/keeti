@@ -1,3 +1,3 @@
 1-You Can't Change the keeti In The url Because of The Directory In The Server (Windows Server).
 2-All The Query Builders Origanly made in test.js.
-3.See www.smartasp  for more about the host enviroment.
+3.See https://www.smarterasp.net/support/kb/a1699/quick-start-guide.aspx  for more about the host enviroment.
