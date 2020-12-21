@@ -5,21 +5,7 @@ const db = require('../config/database');
 isRouter.use(express.json());
 const sql = require("mssql");
 //Query Builder
-function buildInsertQuery(query , fields , values){
-    for (let index = 0; index <= fields.length-1; index++){
-        if(fields.length == 1){
-            query += `( ${fields[index]} ) `;  
-        } else {
-            if (index == 0){
-                query +=`( ${fields[index]} , `; 
-              } else if (index < fields.length-1){
-                query += `${fields[index]} , `;
-              } else if (index == fields.length-1){
-                query += `${fields[index]} )`;
-              }
-        }
-        
-    }
+function buildInsertQuery(query , values){
     query += ' VALUES ';
 
     for (let index = 0; index <= values.length-1; index++){
@@ -40,12 +26,11 @@ function buildInsertQuery(query , fields , values){
 }
 
 isRouter.post('/is' , (req , res)=>{
-    let fields = req.query.field;
     let values = req.query.value;
-    if (fields.length != values.length || fields === undefined){
-        return res.status(500).json({})
+    if ( values.length == 0){
+        return res.status(500).json({error: "no values!"})
     }
-    let query = buildInsertQuery(req.query.que ,fields , values);
+    let query = buildInsertQuery(req.query.que , values);
         async function connectDB() {
              const pool = new sql.ConnectionPool(db);
          
@@ -58,7 +43,7 @@ isRouter.post('/is' , (req , res)=>{
              catch(err) {
                 console.log('Database connection failed!!\n Error Details:\n', err);
          
-                 return err;
+                 return {error :"Database error:\n" + err};
              }
          }
          
@@ -68,12 +53,12 @@ isRouter.post('/is' , (req , res)=>{
              try {
                  const result = await DB.request().query(query);
          
-                 return result.recordset;
+                 return "true";
              }
              catch (err) {
                 console.log('Error querying database!!\n Error Details:\n', err);
          
-                 return err;
+                 return "false";
              }
              finally {
                  DB.close();

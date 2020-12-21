@@ -1,6 +1,7 @@
 
 const express = require('express');
 const authRouter = express.Router();
+const jwt = require('jsonwebtoken');
 const db = require('../config/database');
 const sql = require('mssql');
 
@@ -21,7 +22,7 @@ authRouter.get('/auth', (req, res) => {
          catch(err) {
              console.log('Database connection failed!!\n Error Details:\n', err);
      
-             return err;
+             return {error :"Database error:\n" + err};
          }
      }
      
@@ -45,13 +46,46 @@ authRouter.get('/auth', (req, res) => {
      
      async function execute() {
         let result = await getAll();
-        JSON.stringify(result)
+        //JSON.stringify(result);
              
-        res.status(200).json(result)
-         // return JSON.stringify(result);
+        //res.status(200).json(result);
+          return result
      }
-     
-     execute();
+
+    async function giveJWT(){
+        let result = await execute();
+        let data = {}
+        data.record = result;
+        if (result.length == 0){
+            res.status(404).json({message:"no user!" , data: result});
+        } else {
+           let token = jwt.sign({
+            userId: result[0].id
+        }, 'omerkeeti', { expiresIn: '7 days' });
+        data.token = token;
+        res.status(200).json(data)
+        // console.log({message:"no user!" , data: res});
+        }
+    }
+    giveJWT();
  });
 
 module.exports = authRouter;
+
+
+/*
+"mySchoolID": 1,
+        "id": 1,
+        "nameEN": "Royal British International Schools",
+        "addressEN": null,
+        "dbServer": null,
+        "meetingServer": "https://live.smartschool.sd/",
+        "avatarURL": "https://www.smartschool.sd/avatars/1/",
+        "videoURL": "http://www.keeti.sd/media/1/",
+        "audioURL": null,
+        "attachmentsURL": null,
+        "logo": {
+            "type": "Buffer",
+            "data": [
+                255,
+*/

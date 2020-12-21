@@ -10,9 +10,9 @@ function buildUpdateQuery(query , fields , values , condFields , condValues){
 
     for(let ind = 0; ind <= fields.length-1; ind++){
         if (ind < fields.length-1){
-            query += ` ${fields[ind]} = '${values[ind]}' ,`;
+            query += ` ${fields[ind]} = ${values[ind]} ,`;
         } else if (ind == fields.length-1){
-            query += ` ${fields[ind]} = '${values[ind]}'`;
+            query += ` ${fields[ind]} = ${values[ind]}`;
         }
     }
 
@@ -48,7 +48,7 @@ uqRouter.put('/uq' , (req , res)=>{
                  catch(err) {
                     console.log('Database connection failed!!\n Error Details:\n', err);
              
-                     return err;
+                     return {error :"Database error:\n" + err};
                  }
              }
              
@@ -58,12 +58,12 @@ uqRouter.put('/uq' , (req , res)=>{
                  try {
                      const result = await DB.request().query(query);
              
-                     return result.recordset;
+                     return "true";
                  }
                  catch (err) {
                      console.log('Error querying database!!\n Error Details:\n', err);
              
-                     return err;
+                     return "false";
                  }
                  finally {
                      DB.close();

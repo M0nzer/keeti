@@ -39,7 +39,7 @@ dqRouter.delete('/dq', (req , res)=>{
              catch(err) {
                 console.log('Database connection failed!!\n Error Details:\n', err);
          
-                 return err;
+                 return {error :"Database error:\n" + err};
              }
          }
          
@@ -49,12 +49,12 @@ dqRouter.delete('/dq', (req , res)=>{
              try {
                  const result = await DB.request().query(query);
          
-                 return result.recordset;
+                 return "true";
              }
              catch (err) {
                 console.log('Error querying database!!\n Error Details:\n', err);
          
-                 return err;
+                 return "false";
              }
              finally {
                  DB.close();

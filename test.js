@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 let que = 'DELETE FROM SET_users ';
 //
 //
@@ -5,7 +7,19 @@ let field = ['nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone'];
 let value = ['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505'];
 let condField = ['nameEN' , 'nameAR'];
 let condValue = ['monzer' , '---'];
-
+let result = [{
+    "mySchoolID": 1,
+    "id": 1,
+    "nameEN": "Royal British International Schools",
+    "addressEN": null,
+    "dbServer": null,
+    "meetingServer": "https://live.smartschool.sd/",
+    "avatarURL": "https://www.smartschool.sd/avatars/1/",
+    "videoURL": "http://www.keeti.sd/media/1/",
+    "audioURL": null,
+    "attachmentsURL": null
+    }
+];
 function buildInsertQuery(query , fields , values){
     for (let index = 0; index <= fields.length-1; index++){
         if(fields.length == 1){
@@ -93,19 +107,19 @@ function buildDeleteQuery(query , fields , values){
 }
 
 
-console.log(`
-Result of The BuildDeleteQuery function:
-${buildDeleteQuery(que , field , value)}
+// console.log(`
+// Result of The BuildDeleteQuery function:
+// ${buildDeleteQuery(que , field , value)}
 
-the output in buildInsertIntoQuery will be:
-${buildInsertQuery(que , field , value)}
+// the output in buildInsertIntoQuery will be:
+// ${buildInsertQuery(que , field , value)}
 
-Result of The BuildUpdateQuery function:
-${buildUpdateQuery(que , field , value , condField , condValue)}
+// Result of The BuildUpdateQuery function:
+// ${buildUpdateQuery(que , field , value , condField , condValue)}
 
-the output in buildSelectWhereQuery will be:
-${buildSelectWhereQuery(que , field , value)}
-`)
+// the output in buildSelectWhereQuery will be:
+// ${buildSelectWhereQuery(que , field , value)}
+// `)
 
 //DELETE FROM table_name WHERE condition;
 //UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;
@@ -125,3 +139,19 @@ ${condField}
 condValues for update query builder is:
 ${condValue}
 */
+
+
+// result = JSON.stringify(result);
+// result = JSON.parse(result);
+function testJWT(res){
+    if (res.length == 0){
+        console.log({message:"no user!" , data: res});
+    } else {
+       let token = jwt.sign({
+        userId: res[0].id
+      }, 'omerkeeti', { expiresIn: '7 days' });
+       return token;
+    // console.log({message:"no user!" , data: res});
+    }
+}
+console.log(testJWT(result));
