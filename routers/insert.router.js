@@ -5,6 +5,14 @@ const db = require('../config/database');
 isRouter.use(express.json());
 const sql = require("mssql");
 //Query Builder
+
+/**
+ * @author Monzer Abdullaziz
+ * @summary query builder build query from the given array
+ * @param {string} `query` - for e.g `INSERT INTO NES_Database (name , phone , address)`
+ * @param {array} `values` - for e.g `['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505']`
+ * @returns {string} query - for e.g `INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...)`
+ */
 function buildInsertQuery(query , values){
     query += ' VALUES ';
 

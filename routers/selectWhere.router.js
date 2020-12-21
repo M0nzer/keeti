@@ -6,6 +6,15 @@ swRouter.use(express.json());
 const sql = require("mssql");
 
 //Query Builder
+
+/**
+ * @author Monzer Abdullaziz
+ * @summary query builder build query from the given array
+ * @param {string} `query` - for e.g `SELECT students , schools FROM NES_Database`
+ * @param {array} `fields` - for e.g `['nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone']`
+ * @param {array} `values` - for e.g `['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505']`
+ * @returns {string} query - for e.g `SELECT name , school , class FROM NES_Database WHERE name = ali AND id = 4`
+ */
 function buildSelectWhereQuery(query , fields , values){    
     if(fields.length > 0){
         query += `WHERE `;

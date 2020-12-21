@@ -6,6 +6,17 @@ uqRouter.use(express.json());
 const sql = require("mssql");
 
 //Query Builder
+
+/**
+ * @author Monzer Abdullaziz
+ * @summary query builder build query from the given array
+ * @param {string} `query` - for e.g `UPDATE table_name SET`
+ * @param {array} `fields` - for e.g `['nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone']`
+ * @param {array} `values` - for e.g `['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505']`
+ * @param {array} `condition field` - for e.g `['nameEN']`
+ * @param {array} `condition value` - for e.g `['monzer']
+ * @returns {string} query - for e.g `UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition`
+ */
 function buildUpdateQuery(query , fields , values , condFields , condValues){
 
     for(let ind = 0; ind <= fields.length-1; ind++){

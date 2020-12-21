@@ -20,21 +20,15 @@ let result = [{
     "attachmentsURL": null
     }
 ];
-function buildInsertQuery(query , fields , values){
-    for (let index = 0; index <= fields.length-1; index++){
-        if(fields.length == 1){
-            query += `( ${fields[index]} ) `;  
-        } else {
-            if (index == 0){
-                query +=`( ${fields[index]} , `; 
-              } else if (index < fields.length-1){
-                query += `${fields[index]} , `;
-              } else if (index == fields.length-1){
-                query += `${fields[index]} )`;
-              }
-        }
-        
-    }
+
+/**
+ * @author Monzer Abdullaziz
+ * @summary query builder build query from the given array
+ * @param {string} `query` - for e.g `INSERT INTO NES_Database (name , phone , address)`
+ * @param {array} `values` - for e.g `['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505']`
+ * @returns {string} query - for e.g `INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...)`
+ */
+function buildInsertQuery(query , values){
 query += ' VALUES ';
 
     for (let index = 0; index <= values.length-1; index++){
@@ -54,6 +48,14 @@ query += ' VALUES ';
 return query;
 }
 
+/**
+ * @author Monzer Abdullaziz
+ * @summary query builder build query from the given array
+ * @param {string} `query` - for e.g `SELECT students , schools FROM NES_Database`
+ * @param {array} `fields` - for e.g `['nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone']`
+ * @param {array} `values` - for e.g `['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505']`
+ * @returns {string} query - for e.g `SELECT name , school , class FROM NES_Database WHERE name = ali AND id = 4`
+ */
 function buildSelectWhereQuery(query , fields , values){    
     if(fields.length > 0){
         query += `WHERE `;
@@ -68,6 +70,16 @@ function buildSelectWhereQuery(query , fields , values){
     return query;
 }
 
+/**
+ * @author Monzer Abdullaziz
+ * @summary query builder build query from the given array
+ * @param {string} `query` - for e.g `UPDATE table_name SET`
+ * @param {array} `fields` - for e.g `['nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone']`
+ * @param {array} `values` - for e.g `['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505']`
+ * @param {array} `condition field` - for e.g `['nameEN']`
+ * @param {array} `condition value` - for e.g `['monzer']
+ * @returns {string} query - for e.g `UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition`
+ */
 function buildUpdateQuery(query , fields , values , condFields , condValues){
 
     for(let ind = 0; ind <= fields.length-1; ind++){
@@ -91,6 +103,14 @@ function buildUpdateQuery(query , fields , values , condFields , condValues){
     return query;
 }
 
+/**
+ * @author Monzer Abdullaziz
+ * @summary query builder build query from the given array
+ * @param {string} `query` - for e.g `DELETE FROM table_name`
+ * @param {array} `fields` - for e.g `['nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone']`
+ * @param {array} `values` - for e.g `['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505']`
+ * @returns {string} query - for e.g `DELETE FROM table_name WHERE condition`
+ */
 function buildDeleteQuery(query , fields , values){
 
     query += 'WHERE ';
@@ -143,6 +163,12 @@ ${condValue}
 
 // result = JSON.stringify(result);
 // result = JSON.parse(result);
+
+/**
+ * @param {array} res - Database Result
+ * 
+ * @returns {string} token
+ */
 function testJWT(res){
     if (res.length == 0){
         console.log({message:"no user!" , data: res});
@@ -154,4 +180,4 @@ function testJWT(res){
     // console.log({message:"no user!" , data: res});
     }
 }
-console.log(testJWT(result));
+console.log(testJWT());

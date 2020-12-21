@@ -5,6 +5,15 @@ const db = require('../config/database');
 dqRouter.use(express.json());
 const sql = require("mssql");
 //Query Builder
+
+/**
+ * @author Monzer Abdullaziz
+ * @summary query builder build query from the given array
+ * @param {string} `query` - for e.g `DELETE FROM table_name`
+ * @param {array} `fields` - for e.g `['nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone']`
+ * @param {array} `values` - for e.g `['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505']`
+ * @returns {string} query - for e.g `DELETE FROM table_name WHERE condition`
+ */
 function buildDeleteQuery(query , fields , values){
 
     query += 'WHERE ';
