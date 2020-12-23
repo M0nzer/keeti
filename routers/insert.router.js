@@ -1,9 +1,21 @@
 const express = require('express');
 //insert Query
 const isRouter = express.Router();
-const db = require('../config/database');
+const db = require('../config/config').database;
 isRouter.use(express.json());
 const sql = require("mssql");
+
+const isAuth = require('../middleware/auth').auth;
+
+//bodyParser Setup
+const bodyParser = require('body-parser');
+isRouter.use(bodyParser.urlencoded({ extended: false }));
+isRouter.use(bodyParser.json());
+
+//setup cookieParser
+const cookieParser = require('cookie-parser');
+isRouter.use(cookieParser());
+
 //Query Builder
 
 /**
@@ -33,7 +45,7 @@ function buildInsertQuery(query , values){
     return query;
 }
 
-isRouter.post('/is' , (req , res)=>{
+isRouter.post('/is' , isAuth, (req , res)=>{
     let values = req.query.value;
     if ( values.length == 0){
         return res.status(500).json({error: "no values!"})

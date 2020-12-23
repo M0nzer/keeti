@@ -1,9 +1,20 @@
 const express = require('express');
 //update query
 const uqRouter = express.Router();
-const db = require('../config/database');
+const db = require('../config/config').database;
 uqRouter.use(express.json());
 const sql = require("mssql");
+
+const isAuth = require('../middleware/auth').auth;
+
+//bodyParser Setup
+const bodyParser = require('body-parser');
+uqRouter.use(bodyParser.urlencoded({ extended: false }));
+uqRouter.use(bodyParser.json());
+
+//setup cookieParser
+const cookieParser = require('cookie-parser');
+uqRouter.use(cookieParser());
 
 //Query Builder
 
@@ -40,7 +51,7 @@ function buildUpdateQuery(query , fields , values , condFields , condValues){
     return query;
 }
 
-uqRouter.put('/uq' , (req , res)=>{
+uqRouter.put('/uq' , isAuth, (req , res)=>{
     let fields = req.query.field;
     let values = req.query.value;
     if (fields.length != values.length || fields === undefined){

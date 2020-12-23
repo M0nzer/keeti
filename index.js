@@ -3,6 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const morgan = require('morgan');
+//setup cookieParser
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 //const path = require('path');
 app.use(cors());
 //handle Json

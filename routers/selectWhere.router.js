@@ -1,9 +1,20 @@
 const express = require('express');
 //Select Where
 const swRouter = express.Router();
-const db = require('../config/database');
+const db = require('../config/config').database;
 swRouter.use(express.json());
 const sql = require("mssql");
+
+const isAuth = require('../middleware/auth').auth;
+
+//bodyParser Setup
+const bodyParser = require('body-parser');
+swRouter.use(bodyParser.urlencoded({ extended: false }));
+swRouter.use(bodyParser.json());
+
+//setup cookieParser
+const cookieParser = require('cookie-parser');
+swRouter.use(cookieParser());
 
 //Query Builder
 
@@ -30,7 +41,7 @@ function buildSelectWhereQuery(query , fields , values){
     return query;
 }
 
-    swRouter.get('/sw' , (req , res)=>{
+    swRouter.get('/sw' , isAuth, (req , res)=>{
         let fields = req.query.field;
         let values = req.query.value;
         if (fields.length != values.length || fields === undefined){

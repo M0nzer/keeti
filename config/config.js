@@ -1,6 +1,7 @@
 
-// config for the database
-const config = {
+// config
+module.exports = {
+database : {
     user: 'citcsudan2_SQLLogin_1',
     password: '12345asdfg',
     server: 'jazatt2020.mssql.somee.com',
@@ -8,6 +9,6 @@ const config = {
     options: {
         encrypt: true
     }
+},
+secrut : 'omerkeeti'
 }
-
-module.exports = config;

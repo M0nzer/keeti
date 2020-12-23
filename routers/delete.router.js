@@ -1,9 +1,22 @@
 const express = require('express');
 //Delete Query
 const dqRouter = express.Router();
-const db = require('../config/database');
+const db = require('../config/config').database;
 dqRouter.use(express.json());
 const sql = require("mssql");
+
+const isAuth = require('../middleware/auth').auth;
+
+//bodyParser Setup
+const bodyParser = require('body-parser');
+dqRouter.use(bodyParser.urlencoded({ extended: false }));
+dqRouter.use(bodyParser.json());
+
+
+//setup cookieParser
+const cookieParser = require('cookie-parser');
+dqRouter.use(cookieParser());
+
 //Query Builder
 
 /**
@@ -29,7 +42,7 @@ function buildDeleteQuery(query , fields , values){
     return query;   
 }
 
-dqRouter.delete('/dq', (req , res)=>{
+dqRouter.delete('/dq', isAuth, (req , res)=>{
     let fields = req.query.field;
     let values = req.query.value;
     if (fields.length != values.length || fields === undefined){

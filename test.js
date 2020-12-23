@@ -1,4 +1,15 @@
 const jwt = require('jsonwebtoken');
+const ch = require('child_process');
+const {Buffer} = require('safe-buffer');
+
+let hi = ch.spawn('help' , ['cd']);
+
+hi.stdout.on('data' , (data)=>{
+    data = Buffer.from(data).toString('utf8' , 0 , 80000000);
+    console.log(data)
+});
+
+
 
 let que = 'DELETE FROM SET_users ';
 //
@@ -174,10 +185,12 @@ function testJWT(res){
         console.log({message:"no user!" , data: res});
     } else {
        let token = jwt.sign({
-        userId: res[0].id
+        userId: res[0].id,
+        server: 'keeti',
+        developer: 'MonzerOmer'
       }, 'omerkeeti', { expiresIn: '7 days' });
        return token;
     // console.log({message:"no user!" , data: res});
     }
 }
-console.log(testJWT());
+console.log(testJWT(result));
