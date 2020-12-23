@@ -18,7 +18,7 @@ uploadRouter.use(cookieParser());
 //Multer Setup
 const imgStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null,'./static/images')
+      cb(null,'./keeti/static/images')
     },
     filename: (req, file, cb) => {
       cb(null,'IMG-' + Date.now() + path.extname(file.originalname))
@@ -30,7 +30,7 @@ const imgUpload = multer({storage: imgStorage});
 //Multer Setup
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null,'./static/files/')
+      cb(null,'./keeti/static/files/')
     },
     filename: (req, file, cb) => {
       cb(null,'FILE-' + Date.now() + path.extname(file.originalname))
@@ -42,7 +42,7 @@ const fileUpload = multer({storage: fileStorage});
 //Multer Setup
 const vidStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null,'./static/videos/')
+      cb(null,'./keeti/static/videos/')
     },
     filename: (req, file, cb) => {
       cb(null,'VID-' + Date.now() + path.extname(file.originalname))

@@ -30,7 +30,7 @@ app.use('/keeti' , authRoute);
 app.use('/keeti' , uploadRoute);
 
 //Static Files
-app.use('/static', express.static('./static'));
+app.use('/keeti/static', express.static('./keeti/static'));
 
 
 app.get('*', (req, res) => {
