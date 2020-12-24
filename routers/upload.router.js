@@ -1,8 +1,10 @@
+//Dep
 const express = require('express')
 , uploadRouter = express.Router()
-, multer = require('multer')
-, fs = require('fs')
-, path = require('path');
+,  fileUpload = require('express-fileupload');
+
+uploadRouter.use(fileUpload());
+
 
 const isAuth = require('../middleware/auth').auth;
 
@@ -15,67 +17,59 @@ uploadRouter.use(bodyParser.json());
 const cookieParser = require('cookie-parser');
 uploadRouter.use(cookieParser());
 
-//Multer Setup
-const imgStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null,'./keeti/static/images')
-    },
-    filename: (req, file, cb) => {
-      cb(null,'IMG-' + Date.now() + path.extname(file.originalname))
-    }
-});
+uploadRouter.post('/upload', isAuth , (req , res)=>{
+  let filePath = '';
+  let type = '';
+  let File = req.files.sampleFile;
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
 
-const imgUpload = multer({storage: imgStorage});
+  }else if (req.query.path == 1){
 
-//Multer Setup
-const fileStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null,'./keeti/static/files/')
-    },
-    filename: (req, file, cb) => {
-      cb(null,'FILE-' + Date.now() + path.extname(file.originalname))
-    }
-});
+    filePath = '../keeti/keeti/static/images/';
+    type = 'images/';
+    File.mv( filePath + File.name, function(err) {
+      if (err)
+        return res.status(500).send(err);
+      else
+        res.status(200).json({path : '/keeti/static/' + type + File.name});
+    });
 
-const fileUpload = multer({storage: fileStorage});
+  } else if(req.query.path == 2){
 
-//Multer Setup
-const vidStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null,'./keeti/static/videos/')
-    },
-    filename: (req, file, cb) => {
-      cb(null,'VID-' + Date.now() + path.extname(file.originalname))
-    }
-});
+    filePath = '../keeti/keeti/static/files/';
+    type = 'files/';
+    File.mv( filePath + File.name, function(err) {
+      if (err)
+        return res.status(500).send(err);
+      else
+        res.status(200).json({path : '/keeti/static/' + type + File.name});
+    });
 
-const vidUpload = multer({storage: vidStorage});
+  }else if(req.query.path == 3){
 
-//Router
-uploadRouter.post('/imgUpload' , imgUpload.single('image') , isAuth , (req , res)=>{
-  if(req.file){
-    console.log(req.auth);
-      res.status(201).json({status: true , file: req.file , path: req.file.path});
-  }else{
-      res.sendStatus(403);
+    filePath = '../keeti/keeti/static/videos/';
+    type = 'videos/';
+    File.mv( filePath + File.name, function(err) {
+      if (err)
+        return res.status(500).send(err);
+      else
+        res.status(200).json({path : '/keeti/static/' + type + File.name});
+    });
+
+  } else {
+
+    filePath = '../keeti/keeti/static/files/';
+    type = 'files/';
+    File.mv( filePath + File.name, function(err) {
+      if (err)
+        return res.status(500).send(err);
+      else
+        res.status(200).json({defult: `path query not equal 1 or 2 or 3 or even not avalable! your file saved at /keeti/static/${type}${File.name}`, help: '1 for image , 2 for file, 3 for video' , path : '/keeti/static/' + type + File.name});  
+    });
+
   }
-});
 
-uploadRouter.post('/fileUpload' , fileUpload.single('file'), isAuth , (req , res)=>{
-  if(req.file){
-      res.status(201).json({status: true , file: req.file , path: req.file.path});
-  }else{
-      res.sendStatus(403);
-  }
 });
-
-uploadRouter.post('/vidUpload', vidUpload.single('video'), isAuth , (req , res)=>{
-  if(req.file){
-      res.status(201).json({status: true , file: req.file , path: req.file.path});
-  }else{
-      res.sendStatus(403);
-  }
-});
-
 
 module.exports = uploadRouter;

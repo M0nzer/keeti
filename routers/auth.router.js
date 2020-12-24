@@ -66,7 +66,7 @@ authRouter.get('/auth', (req, res) => {
         }, sec, { expiresIn: '7 days' });
         data.token = token;
         //res.status(200).json(data)
-        res.cookie('token', token, { expires: new Date(Date.now() + 900000), httpOnly: true }).status(200).send({ message: 'Login is successful' , data: data });
+        res.cookie('token', token, { expires: new Date(Date.now() + 604800000), httpOnly: true }).status(200).send({ message: 'Login is successful' , data: data });
         // console.log({message:"no user!" , data: res});
         }
     }

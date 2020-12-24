@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { secrut } = require("../config/config");
-const cookieParser = require('cookie-parser');
+
 
 module.exports = {
     auth: (req , res , next)=>{
