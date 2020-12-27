@@ -62,6 +62,6 @@ app.delete('*', (req, res) => {
 });
 
 //listening at 3000 OR process.env.PORT
-app.listen(3000);
+app.listen(process.env.PORT);
 
 //http://localhost:3000/keeti/static/videos/VID-1608541833508.mp4
