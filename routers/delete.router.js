@@ -38,7 +38,6 @@ function buildDeleteQuery(query , fields , values){
                 query += ` ${fields[ind]} = '${values[ind]}'`;
             }
        }
-    console.log(query);
     return query;   
 }
 
@@ -59,9 +58,8 @@ dqRouter.delete('/dq', isAuth, (req , res)=>{
                  return pool;
              }
              catch(err) {
-                console.log('Database connection failed!!\n Error Details:\n', err);
+                 return res.status(500).send("false");
          
-                 return {error :"Database error:\n" + err};
              }
          }
          
@@ -71,12 +69,11 @@ dqRouter.delete('/dq', isAuth, (req , res)=>{
              try {
                  const result = await DB.request().query(query);
          
-                 return "true";
+                 return res.status(200).send("true");
              }
              catch (err) {
-                console.log('Error querying database!!\n Error Details:\n', err);
          
-                 return "false";
+                return res.status(500).send("false");
              }
              finally {
                  DB.close();
@@ -85,10 +82,9 @@ dqRouter.delete('/dq', isAuth, (req , res)=>{
          
          async function execute() {
              let result = await getAll();
-             JSON.stringify(result)
          
-             res.status(200).json(result)
-             // return JSON.stringify(result);
+             //res.status(200).json(result)
+            return JSON.stringify(result);
          }
          
          execute();

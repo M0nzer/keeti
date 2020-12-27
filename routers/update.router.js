@@ -47,7 +47,6 @@ function buildUpdateQuery(query , fields , values , condFields , condValues){
             query += ` ${condFields[ind]} = '${condValues[ind]}'`;
         }
     }
-    console.log(query);
     return query;
 }
 
@@ -68,9 +67,8 @@ uqRouter.put('/uq' , isAuth, (req , res)=>{
                      return pool;
                  }
                  catch(err) {
-                    console.log('Database connection failed!!\n Error Details:\n', err);
              
-                     return {error :"Database error:\n" + err};
+                    return res.status(500).send("false");
                  }
              }
              
@@ -79,13 +77,12 @@ uqRouter.put('/uq' , isAuth, (req , res)=>{
              
                  try {
                      const result = await DB.request().query(query);
-             
-                     return "true";
+                    
+                     res.status(200).send("true");
                  }
                  catch (err) {
-                     console.log('Error querying database!!\n Error Details:\n', err);
-             
-                     return "false";
+
+                     return res.status(500).send("false");                     
                  }
                  finally {
                      DB.close();
@@ -94,10 +91,8 @@ uqRouter.put('/uq' , isAuth, (req , res)=>{
              
              async function execute() {
                  let result = await getAll();
-                 JSON.stringify(result)
              
-                 res.status(200).json(result)
-                 // return JSON.stringify(result);
+                  return JSON.stringify(result);
              }
              
              execute();

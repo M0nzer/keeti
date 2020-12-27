@@ -5,7 +5,6 @@ const express = require('express')
 
 uploadRouter.use(fileUpload());
 
-
 const isAuth = require('../middleware/auth').auth;
 
 //bodyParser Setup
@@ -17,7 +16,7 @@ uploadRouter.use(bodyParser.json());
 const cookieParser = require('cookie-parser');
 uploadRouter.use(cookieParser());
 
-uploadRouter.post('/upload', isAuth , (req , res)=>{
+uploadRouter.post('/upload',isAuth , (req , res)=>{
   let filePath = '';
   let type = '';
   let File = req.files.sampleFile;
@@ -33,6 +32,8 @@ uploadRouter.post('/upload', isAuth , (req , res)=>{
         return res.status(500).send(err);
       else
         res.status(200).json({path : '/keeti/static/' + type + File.name});
+
+        
     });
 
   } else if(req.query.path == 2){
@@ -68,6 +69,7 @@ uploadRouter.post('/upload', isAuth , (req , res)=>{
         res.status(200).json({defult: `path query not equal 1 or 2 or 3 or even not avalable! your file saved at /keeti/static/${type}${File.name}`, help: '1 for image , 2 for file, 3 for video' , path : '/keeti/static/' + type + File.name});  
     });
 
+    
   }
 
 });

@@ -22,9 +22,9 @@ authRouter.get('/auth', (req, res) => {
              return pool;
          }
          catch(err) {
-             console.log('Database connection failed!!\n Error Details:\n', err);
-     
-             return {error :"Database error:\n" + err};
+
+            return res.status(500).json({Error: err});
+
          }
      }
      
@@ -37,9 +37,8 @@ authRouter.get('/auth', (req, res) => {
              return result.recordset;
          }
          catch (err) {
-            console.log('Error querying database!!\n Error Details:\n', err);
-     
-             return err;
+             return res.status(500).json({Error: err});     
+
          }
          finally {
              DB.close();
@@ -57,16 +56,59 @@ authRouter.get('/auth', (req, res) => {
     async function giveJWT(){
         let result = await execute();
         let data = {}
-        data.record = result;
+        data = result[0];
         if (result.length == 0){
             res.status(404).json({message:"no user!" , data: result});
         } else {
            let token = jwt.sign({
             userId: result[0].id
-        }, sec, { expiresIn: '7 days' });
+        }, sec , { expiresIn: '99 years' });
         data.token = token;
+
+
+        async function connectToDB() {
+            const pool = new sql.ConnectionPool(db);
+        
+            try {
+                await pool.connect();
+        
+                return pool;
+            }
+            catch(err) {
+
+               return res.status(500).json({Error: err});
+
+            }
+        }
+        
+        async function conDatabase() {
+            const DB = await connectToDB();
+        
+            try {
+                const result = await DB.request().query(`UPDATE SET_users SET token = '${token}' WHERE phone = '${req.query.username}'`);
+        
+                return result.recordset;
+            }
+            catch (err) {
+               return res.status(500).json({Error: err});        
+            }
+            finally {
+                DB.close();
+            }
+        }
+        
+        async function executeQuery() {
+           let result = await conDatabase();
+           //JSON.stringify(result);
+                
+           //res.status(200).json(result);
+             return result
+        }
+
+        executeQuery();
+
         //res.status(200).json(data)
-        res.cookie('token', token, { expires: new Date(Date.now() + 604800000), httpOnly: true }).status(200).send({ message: 'Login is successful' , data: data });
+        res.status(200).send({ message: 'Login is successful' , data: data });
         // console.log({message:"no user!" , data: res});
         }
     }

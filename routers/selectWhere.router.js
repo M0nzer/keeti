@@ -28,24 +28,25 @@ swRouter.use(cookieParser());
  */
 function buildSelectWhereQuery(query , fields , values){    
     if(fields.length > 0){
-        query += `WHERE `;
+        query += ` WHERE `;
         for(let ind = 0; ind <= fields.length-1; ind++){
             if (ind < fields.length-1){
-                query += ` ${fields[ind]} = '${values[ind]}' and`;
+                query += ` ${fields[ind]}  ${values[ind]} `;   
             } else if (ind == fields.length-1){
-                query += ` ${fields[ind]} = '${values[ind]}'`;
+                query += ` ${fields[ind]}  ${values[ind]}`;
             }
         }
     }
-    console.log(query);
     return query;
 }
 
     swRouter.get('/sw' , isAuth, (req , res)=>{
+
+        
         let fields = req.query.field;
         let values = req.query.value;
         if (fields.length != values.length || fields === undefined){
-            return res.status(500).json({})
+            return res.status(500).json({Error : "No Values Entred!"});
         }
         let query = buildSelectWhereQuery(req.query.que ,fields , values);
             async function connectDB() {
@@ -58,9 +59,7 @@ function buildSelectWhereQuery(query , fields , values){
                      return pool;
                  }
                  catch(err) {
-                    console.log('Database connection failed!!\n Error Details:\n', err);
-             
-                     return {error :"Database error:\n" + err};
+                    return res.status(500).send(err);             
                  }
              }
              
@@ -70,12 +69,11 @@ function buildSelectWhereQuery(query , fields , values){
                  try {
                      const result = await DB.request().query(query);
              
-                     return "true";
+                     return res.status(200).send(result.recordset);
                  }
                  catch (err) {
-                    console.log('Error querying database!!\n Error Details:\n', err);
              
-                     return "false";
+                    return res.status(500).send(err); 
                  }
                  finally {
                      DB.close();
@@ -84,10 +82,8 @@ function buildSelectWhereQuery(query , fields , values){
              
              async function execute() {
                  let result = await getAll();
-                 JSON.stringify(result)
-             
-                 res.status(200).json(result)
-                 // return JSON.stringify(result);
+
+                 return JSON.stringify(result.recordset);
              }
              
              execute();

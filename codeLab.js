@@ -1,16 +1,18 @@
 const jwt = require('jsonwebtoken');
 const ch = require('child_process');
 const {Buffer} = require('safe-buffer');
+const db = require('./config/config').database;
+const sql = require("mssql");
 
-let hi = ch.spawn('help' , ['cd']);
+// let hi = ch.spawn('help' , ['cd']);
 
-hi.stdout.on('data' , (data)=>{
-    data = Buffer.from(data).toString('utf8' , 0 , 80000000);
-    console.log(data)
-});
+// hi.stdout.on('data' , (data)=>{
+//     data = Buffer.from(data).toString('utf8' , 0 , 80000000);
+//     console.log(data)
+// });
 
 
-
+let req = {};
 let que = 'DELETE FROM SET_users ';
 //
 //
@@ -180,17 +182,81 @@ ${condValue}
  * 
  * @returns {string} token
  */
-function testJWT(res){
-    if (res.length == 0){
-        console.log({message:"no user!" , data: res});
-    } else {
-       let token = jwt.sign({
-        userId: res[0].id,
-        server: 'keeti',
-        developer: 'MonzerOmer'
-      }, 'omerkeeti', { expiresIn: '7 days' });
-       return token;
-    // console.log({message:"no user!" , data: res});
+
+// let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInNlcnZlciI6ImtlZXRpIiwiZGV2ZWxvcGVyIjoiTW9uemVyT21lciIsImlhdCI6MTYwOTA3NDQ5MSwiZXhwIjo0NzMzMjc2ODkxfQ.ZYTRX-FFnAt3MKBH1C08vDIOUnFec1NDH_dP2qpyPdU'
+
+//     async function connectDB() {
+//         const pool = new sql.ConnectionPool(db);
+    
+//         try {
+//             await pool.connect();
+//             console.log('Connected to database');
+    
+//             return pool;
+//         }
+//         catch(err) {
+     
+//             return {error :"Database error:\n" + err};
+//         }
+//     }
+    
+//     async function getAll() {
+        
+        
+//         const DB = await connectDB();
+    
+//         try {
+//             let query= `select id , token , phone from SET_users where status = 'Enabled' and token = '${token}'`;
+//             console.log(query);
+//             const result = await DB.request().query(query);
+            
+//             return result.recordset;
+//         }
+//         catch (err) {
+    
+//             return err
+//         }
+//         finally {
+//             DB.close();
+//         }
+//     }
+    
+//     async function execute() {
+//         let result = await getAll();
+
+//         if (result.length >= 1){
+//             req.authVar = 'Authenticated';
+//             next();
+    
+//         } else {
+
+//             res.status(401).send({ Error: 'Authentication Error!  Non-Authoritative Token'});
+
+//         }
+//     }
+//     execute();
+
+
+
+
+    
+
+    function testJWT(res){
+        if (res.length == 0 || !res){
+            console.log({message:"no user!" , data: res});
+        } else {
+           let token = jwt.sign({
+            id: 1,
+          }, 'omerkeeti', { expiresIn: '99 years' });
+           return token;
+        // console.log({message:"no user!" , data: res});
+        }
     }
-}
-console.log(testJWT(result));
+    console.log(testJWT(result));
+
+
+// jwt.verify('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInNlcnZlciI6ImtlZXRpIiwiZGV2ZWxvcGVyIjoiTW9uemVyT21lciIsImlhdCI6MTYwOTA3NDQ5MSwiZXhwIjo0NzMzMjc2ODkxfQ.ZYTRX-FFnAt3MKBH1C08vDIOUnFec1NDH_dP2qpyPdU' , 'omerkeeti' , function(err, decoded) {
+//     console.log(decoded)
+//   });
+
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInNlcnZlciI6ImtlZXRpIiwiZGV2ZWxvcGVyIjoiTW9uemVyT21lciIsImlhdCI6MTYwOTA3NDQ5MSwiZXhwIjo0NzMzMjc2ODkxfQ.ZYTRX-FFnAt3MKBH1C08vDIOUnFec1NDH_dP2qpyPdU

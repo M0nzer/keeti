@@ -41,7 +41,6 @@ function buildInsertQuery(query , values){
               }
         }
     }
-    console.log(query);
     return query;
 }
 
@@ -61,9 +60,7 @@ isRouter.post('/is' , isAuth, (req , res)=>{
                  return pool;
              }
              catch(err) {
-                console.log('Database connection failed!!\n Error Details:\n', err);
-         
-                 return {error :"Database error:\n" + err};
+                return res.status(500).send("false");
              }
          }
          
@@ -73,12 +70,11 @@ isRouter.post('/is' , isAuth, (req , res)=>{
              try {
                  const result = await DB.request().query(query);
          
-                 return "true";
+                 return res.status(200).send("true");
              }
              catch (err) {
-                console.log('Error querying database!!\n Error Details:\n', err);
          
-                 return "false";
+                return res.status(500).send("false");
              }
              finally {
                  DB.close();
@@ -87,10 +83,8 @@ isRouter.post('/is' , isAuth, (req , res)=>{
           
          async function execute() {
              let result = await getAll();
-             JSON.stringify(result)
          
-             res.status(200).json(result)
-             // return JSON.stringify(result);
+             return JSON.stringify(result);
          }
          
          execute();
