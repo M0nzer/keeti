@@ -1,17 +1,18 @@
 
-const express = require('express');
-const authRouter = express.Router();
-const jwt = require('jsonwebtoken');
-const db = require('../config/config').database;
-const sec = require('../config/config').secrut;
-const sql = require('mssql');
+const express = require('express')
+, authRouter = express.Router()
+, jwt = require('jsonwebtoken')
+, db = require('../config/config').database
+, sec = require('../config/config').secrut
+, isAuth = require('../middleware/virefy').auth
+, sql = require('mssql');
 
 //bodyParser Setup
 const bodyParser = require('body-parser');
 authRouter.use(bodyParser.urlencoded({ extended: false }));
 authRouter.use(bodyParser.json());
 
-authRouter.get('/auth', (req, res) => {
+authRouter.get('/auth', isAuth , (req, res) => {
     async function connectDB() {
          const pool = new sql.ConnectionPool(db);
      

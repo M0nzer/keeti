@@ -59,7 +59,7 @@ function buildSelectWhereQuery(query , fields , values){
                      return pool;
                  }
                  catch(err) {
-                    return res.status(500).send(err);             
+                    return res.status(500).send("false");             
                  }
              }
              
@@ -73,7 +73,7 @@ function buildSelectWhereQuery(query , fields , values){
                  }
                  catch (err) {
              
-                    return res.status(500).send(err); 
+                    return res.status(500).send("false"); 
                  }
                  finally {
                      DB.close();

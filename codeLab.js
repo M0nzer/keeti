@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const ch = require('child_process');
-const {Buffer} = require('safe-buffer');
-const db = require('./config/config').database;
-const sql = require("mssql");
+// const jwt = require('jsonwebtoken');
+// const ch = require('child_process');
+// const {Buffer} = require('safe-buffer');
+// const db = require('./config/config').database;
+// const sql = require("mssql");
 
 // let hi = ch.spawn('help' , ['cd']);
 
@@ -11,28 +11,33 @@ const sql = require("mssql");
 //     console.log(data)
 // });
 
+// var fs = require('fs');
+// var dir = './tmp';
 
-let req = {};
-let que = 'DELETE FROM SET_users ';
-//
-//
-let field = ['nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone'];
-let value = ['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505'];
-let condField = ['nameEN' , 'nameAR'];
-let condValue = ['monzer' , '---'];
-let result = [{
-    "mySchoolID": 1,
-    "id": 1,
-    "nameEN": "Royal British International Schools",
-    "addressEN": null,
-    "dbServer": null,
-    "meetingServer": "https://live.smartschool.sd/",
-    "avatarURL": "https://www.smartschool.sd/avatars/1/",
-    "videoURL": "http://www.keeti.sd/media/1/",
-    "audioURL": null,
-    "attachmentsURL": null
-    }
-];
+// if (!fs.existsSync(dir)){
+//     fs.mkdirSync(dir);
+// }
+
+// let req = {};
+// let que = 'DELETE FROM SET_users ';
+
+// let field = ['nameEN' , 'nameAR' , 'password' , 'type', 'status' , 'phone'];
+// let value = ['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505'];
+// let condField = ['nameEN' , 'nameAR'];
+// let condValue = ['monzer' , '---'];
+// let result = [{
+//     "mySchoolID": 1,
+//     "id": 1,
+//     "nameEN": "Royal British International Schools",
+//     "addressEN": null,
+//     "dbServer": null,
+//     "meetingServer": "https://live.smartschool.sd/",
+//     "avatarURL": "https://www.smartschool.sd/avatars/1/",
+//     "videoURL": "http://www.keeti.sd/media/1/",
+//     "audioURL": null,
+//     "attachmentsURL": null
+//     }
+// ];
 
 /**
  * @author Monzer Abdullaziz
@@ -41,25 +46,25 @@ let result = [{
  * @param {array} `values` - for e.g `['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505']`
  * @returns {string} query - for e.g `INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...)`
  */
-function buildInsertQuery(query , values){
-query += ' VALUES ';
+// function buildInsertQuery(query , values){
+// query += ' VALUES ';
 
-    for (let index = 0; index <= values.length-1; index++){
-        if(values.length == 1){
-            query +=`( '${values[index]}') `; 
-        } else {
-            if (index == 0){
-                query += `( '${values[index]}' , `; 
-              } else if (index < values.length-1){
-                query += `'${values[index]}' , `;
-              } else if (index == values.length-1){
-                query +=`'${values[index]}' )`;
-              }
-        }
-    }
+//     for (let index = 0; index <= values.length-1; index++){
+//         if(values.length == 1){
+//             query +=`( '${values[index]}') `; 
+//         } else {
+//             if (index == 0){
+//                 query += `( '${values[index]}' , `; 
+//               } else if (index < values.length-1){
+//                 query += `'${values[index]}' , `;
+//               } else if (index == values.length-1){
+//                 query +=`'${values[index]}' )`;
+//               }
+//         }
+//     }
 
-return query;
-}
+// return query;
+// }
 
 /**
  * @author Monzer Abdullaziz
@@ -69,19 +74,19 @@ return query;
  * @param {array} `values` - for e.g `['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505']`
  * @returns {string} query - for e.g `SELECT name , school , class FROM NES_Database WHERE name = ali AND id = 4`
  */
-function buildSelectWhereQuery(query , fields , values){    
-    if(fields.length > 0){
-        query += `WHERE `;
-        for(let ind = 0; ind <= fields.length-1; ind++){
-            if (ind < fields.length-1){
-                query += ` ${fields[ind]} = '${values[ind]}' and`;
-            } else if (ind == fields.length-1){
-                query += ` ${fields[ind]} = '${values[ind]}'`;
-            }
-        }
-    }
-    return query;
-}
+// function buildSelectWhereQuery(query , fields , values){    
+//     if(fields.length > 0){
+//         query += `WHERE `;
+//         for(let ind = 0; ind <= fields.length-1; ind++){
+//             if (ind < fields.length-1){
+//                 query += ` ${fields[ind]} = '${values[ind]}' and`;
+//             } else if (ind == fields.length-1){
+//                 query += ` ${fields[ind]} = '${values[ind]}'`;
+//             }
+//         }
+//     }
+//     return query;
+// }
 
 /**
  * @author Monzer Abdullaziz
@@ -93,28 +98,28 @@ function buildSelectWhereQuery(query , fields , values){
  * @param {array} `condition value` - for e.g `['monzer']
  * @returns {string} query - for e.g `UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition`
  */
-function buildUpdateQuery(query , fields , values , condFields , condValues){
+// function buildUpdateQuery(query , fields , values , condFields , condValues){
 
-    for(let ind = 0; ind <= fields.length-1; ind++){
-        if (ind < fields.length-1){
-            query += ` ${fields[ind]} = '${values[ind]}' ,`;
-        } else if (ind == fields.length-1){
-            query += ` ${fields[ind]} = '${values[ind]}'`;
-        }
-   }
+//     for(let ind = 0; ind <= fields.length-1; ind++){
+//         if (ind < fields.length-1){
+//             query += ` ${fields[ind]} = '${values[ind]}' ,`;
+//         } else if (ind == fields.length-1){
+//             query += ` ${fields[ind]} = '${values[ind]}'`;
+//         }
+//    }
 
-    query += ' WHERE';
+//     query += ' WHERE';
 
-    for(let ind = 0; ind <= condFields.length-1; ind++){
-        if (ind < condFields.length-1){
-            query += ` ${condFields[ind]} = '${condValues[ind]}' ,`;
-        } else if (ind == condField.length-1){
-            query += ` ${condFields[ind]} = '${condValues[ind]}'`;
-        }
-   }
+//     for(let ind = 0; ind <= condFields.length-1; ind++){
+//         if (ind < condFields.length-1){
+//             query += ` ${condFields[ind]} = '${condValues[ind]}' ,`;
+//         } else if (ind == condField.length-1){
+//             query += ` ${condFields[ind]} = '${condValues[ind]}'`;
+//         }
+//    }
 
-    return query;
-}
+//     return query;
+// }
 
 /**
  * @author Monzer Abdullaziz
@@ -124,20 +129,20 @@ function buildUpdateQuery(query , fields , values , condFields , condValues){
  * @param {array} `values` - for e.g `['monzer' , '---' , 123, 'none' , 'Enabled' , '0121601505']`
  * @returns {string} query - for e.g `DELETE FROM table_name WHERE condition`
  */
-function buildDeleteQuery(query , fields , values){
+// function buildDeleteQuery(query , fields , values){
 
-    query += 'WHERE ';
-    for(let ind = 0; ind <= fields.length-1; ind++){
-        if (ind < fields.length-1){
-            query += ` ${fields[ind]} = '${values[ind]}' ,`;
-            } else if (ind == fields.length-1){
-                query += ` ${fields[ind]} = '${values[ind]}'`;
-            }
-       }
+//     query += 'WHERE ';
+//     for(let ind = 0; ind <= fields.length-1; ind++){
+//         if (ind < fields.length-1){
+//             query += ` ${fields[ind]} = '${values[ind]}' ,`;
+//             } else if (ind == fields.length-1){
+//                 query += ` ${fields[ind]} = '${values[ind]}'`;
+//             }
+//        }
         
-    return query;
+//     return query;
         
-}
+// }
 
 
 // console.log(`
@@ -241,18 +246,18 @@ ${condValue}
 
     
 
-    function testJWT(res){
-        if (res.length == 0 || !res){
-            console.log({message:"no user!" , data: res});
-        } else {
-           let token = jwt.sign({
-            id: 1,
-          }, 'omerkeeti', { expiresIn: '99 years' });
-           return token;
-        // console.log({message:"no user!" , data: res});
-        }
-    }
-    console.log(testJWT(result));
+    // function testJWT(res){
+    //     if (res.length == 0 || !res){
+    //         console.log({message:"no user!" , data: res});
+    //     } else {
+    //        let token = jwt.sign({
+    //         id: 1,
+    //       }, 'omerkeeti', { expiresIn: '99 years' });
+    //        return token;
+    //     // console.log({message:"no user!" , data: res});
+    //     }
+    // }
+    // console.log(testJWT(result));
 
 
 // jwt.verify('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInNlcnZlciI6ImtlZXRpIiwiZGV2ZWxvcGVyIjoiTW9uemVyT21lciIsImlhdCI6MTYwOTA3NDQ5MSwiZXhwIjo0NzMzMjc2ODkxfQ.ZYTRX-FFnAt3MKBH1C08vDIOUnFec1NDH_dP2qpyPdU' , 'omerkeeti' , function(err, decoded) {
