@@ -1,20 +1,23 @@
 //Setup Express
 const express = require('express')
-, cors = require('cors')
-, app = express()
-, morgan = require('morgan');
+, app = express();
+
 
 //setup cookieParser
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-//const path = require('path');
-app.use(cors());
+//for development
+//const cors = require('cors')
+//const morgan = require('morgan');
+//app.use(cors());
+//app.use(morgan('tiny'));
+
 
 //handle Json
 app.use(express.json());
 
-app.use(morgan('tiny'));
+
 //0923595393
 //1234
 //Setup Routers

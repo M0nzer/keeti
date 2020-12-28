@@ -32,9 +32,9 @@ function buildUpdateQuery(query , fields , values , condFields , condValues){
 
     for(let ind = 0; ind <= fields.length-1; ind++){
         if (ind < fields.length-1){
-            query += ` ${fields[ind]} = ${values[ind]} ,`;
+            query += ` ${fields[ind]}  ${values[ind]} ,`;
         } else if (ind == fields.length-1){
-            query += ` ${fields[ind]} = ${values[ind]}`;
+            query += ` ${fields[ind]}  ${values[ind]}`;
         }
     }
 
@@ -42,9 +42,9 @@ function buildUpdateQuery(query , fields , values , condFields , condValues){
 
     for(let ind = 0; ind <= condFields.length-1; ind++){
         if (ind < condFields.length-1){
-            query += ` ${condFields[ind]} = '${condValues[ind]}' ,`;
+            query += ` ${condFields[ind]}  ${condValues[ind]} ,`;
         } else if (ind == condField.length-1){
-            query += ` ${condFields[ind]} = '${condValues[ind]}'`;
+            query += ` ${condFields[ind]}  ${condValues[ind]}`;
         }
     }
     return query;
@@ -54,7 +54,7 @@ uqRouter.put('/uq' , isAuth, (req , res)=>{
     let fields = req.query.field;
     let values = req.query.value;
     if (fields.length != values.length || fields === undefined){
-        return res.status(500).json({})
+        return res.status(500).json({response : []})
     }
         let query = buildUpdateQuery(req.query.que ,fields , values , req.query.condf , req.query.condv);
             async function connectDB() {
@@ -62,13 +62,12 @@ uqRouter.put('/uq' , isAuth, (req , res)=>{
              
                  try {
                      await pool.connect();
-                     console.log('Connected to database');
              
                      return pool;
                  }
                  catch(err) {
              
-                    return res.status(500).send("false");
+                    return res.status(500).json({response : "false"});
                  }
              }
              
@@ -78,12 +77,13 @@ uqRouter.put('/uq' , isAuth, (req , res)=>{
                  try {
                      const result = await DB.request().query(query);
                     
-                     res.status(200).send("true");
+                     res.status(200).json({response : "true"});
                  }
                  catch (err) {
 
-                     return res.status(500).send("false");                     
-                 }
+                     return res.status(500).json({response : "false"});                     
+                 
+                }
                  finally {
                      DB.close();
                  }

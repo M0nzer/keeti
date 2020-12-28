@@ -54,12 +54,11 @@ function buildSelectWhereQuery(query , fields , values){
              
                  try {
                      await pool.connect();
-                     console.log('Connected to database');
              
                      return pool;
                  }
                  catch(err) {
-                    return res.status(500).send("false");             
+                    return res.status(500).json({response : "false"});             
                  }
              }
              
@@ -69,11 +68,11 @@ function buildSelectWhereQuery(query , fields , values){
                  try {
                      const result = await DB.request().query(query);
              
-                     return res.status(200).send(result.recordset);
+                     return res.status(200).json(result.recordset);
                  }
                  catch (err) {
              
-                    return res.status(500).send("false"); 
+                    return res.status(500).json({response : "false"}); 
                  }
                  finally {
                      DB.close();

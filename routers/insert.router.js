@@ -47,7 +47,7 @@ function buildInsertQuery(query , values){
 isRouter.post('/is' , isAuth, (req , res)=>{
     let values = req.query.value;
     if ( values.length == 0){
-        return res.status(500).json({error: "no values!"})
+        return res.status(500).json({response: []})
     }
     let query = buildInsertQuery(req.query.que , values);
         async function connectDB() {
@@ -55,12 +55,11 @@ isRouter.post('/is' , isAuth, (req , res)=>{
          
              try {
                  await pool.connect();
-                 console.log('Connected to database');
          
                  return pool;
              }
              catch(err) {
-                return res.status(500).send("false");
+                return res.status(500).json({response : "false"});
              }
          }
          
@@ -70,11 +69,11 @@ isRouter.post('/is' , isAuth, (req , res)=>{
              try {
                  const result = await DB.request().query(query);
          
-                 return res.status(200).send("true");
+                 return res.status(200).json({response : "true"});
              }
              catch (err) {
          
-                return res.status(500).send("false");
+                return res.status(500).json({response : "false"});
              }
              finally {
                  DB.close();

@@ -28,9 +28,9 @@ uploadRouter.post('/upload',isAuth , (req , res)=>{
 
     File.mv( filePath + File.name, function(err) {
       if (err)
-        return res.status(500).send("false");
+        return res.status(500).json({response : "false"});
       else
-        return res.status(200).send("true");  
+        return res.status(200).json({response : "true"});  
     });
 
 });

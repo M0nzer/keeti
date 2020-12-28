@@ -20,7 +20,7 @@ module.exports = {
         
             } catch (err) {
         
-                return res.status(400).send({ message: 'Authentication error!' });
+                return res.status(400).json({ message: 'Authentication error!' });
         
             }
 
@@ -29,13 +29,12 @@ module.exports = {
             
                 try {
                     await pool.connect();
-                    console.log('Connected to database');
             
                     return pool;
                 }
                 catch(err) {
              
-                    res.status(500).json({Error: err});
+                    return res.status(500).json({Error: err});
 
                 }
             }
@@ -47,7 +46,7 @@ module.exports = {
             
                 try {
 
-                    const result = await DB.request().query(`select id , token , phone from SET_users where status = 'Enabled' and token = '${token}'`);
+                    const result = await DB.request().query(`select * from SET_users where status = 'Enabled' and token = '${token}'`);
 
                     return result.recordset;
                 }
@@ -65,11 +64,11 @@ module.exports = {
         
                 if (result.length >= 1){
 
-                    res.status(200).json({auth: "Already Authorized"});
+                    return res.status(200).json(result);
             
                 } else {
         
-                   next();
+                    return res.status(401).json(result);
         
                 }
             }

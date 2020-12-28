@@ -33,7 +33,7 @@ authRouter.get('/auth', isAuth , (req, res) => {
          const DB = await connectDB();
      
          try {
-             const result = await DB.request().query(`select US.mySchoolID,S.id,S.nameEN,S.addressEN,S.dbServer,S.meetingServer,S.avatarURL,S.videoURL,S.audioURL, S.attachmentsURL,S.logo,S.background from SET_schools S left outer join users_schools US on S.id = US.sID where US.uID = (select id from SET_users where phone = '${req.query.username}' and password ='${req.query.password}')`);
+             const result = await DB.request().query(`select * from SET_users where phone = '${req.query.username}' and status = 'Enabled' and password ='${req.query.password}'`);
      
              return result.recordset;
          }
@@ -48,10 +48,8 @@ authRouter.get('/auth', isAuth , (req, res) => {
      
      async function execute() {
         let result = await getAll();
-        //JSON.stringify(result);
-             
-        //res.status(200).json(result);
-          return result
+
+        return result
      }
 
     async function giveJWT(){
@@ -59,7 +57,7 @@ authRouter.get('/auth', isAuth , (req, res) => {
         let data = {}
         data = result[0];
         if (result.length == 0){
-            res.status(404).json({message:"no user!" , data: result});
+            return res.status(404).json(result);
         } else {
            let token = jwt.sign({
             userId: result[0].id
@@ -77,7 +75,7 @@ authRouter.get('/auth', isAuth , (req, res) => {
             }
             catch(err) {
 
-               return res.status(500).json({Error: err});
+               return res.status(500).json(err);
 
             }
         }
@@ -91,7 +89,7 @@ authRouter.get('/auth', isAuth , (req, res) => {
                 return result.recordset;
             }
             catch (err) {
-               return res.status(500).json({Error: err});        
+               return res.status(500).json(err);        
             }
             finally {
                 DB.close();
@@ -100,38 +98,17 @@ authRouter.get('/auth', isAuth , (req, res) => {
         
         async function executeQuery() {
            let result = await conDatabase();
-           //JSON.stringify(result);
-                
-           //res.status(200).json(result);
-             return result
+
+           return result
         }
 
         executeQuery();
 
-        //res.status(200).json(data)
-        res.status(200).send({ message: 'Login is successful' , data: data });
-        // console.log({message:"no user!" , data: res});
+        res.status(200).json(data);
+
         }
     }
     giveJWT();
  });
 
 module.exports = authRouter;
-
-
-/*
-"mySchoolID": 1,
-        "id": 1,
-        "nameEN": "Royal British International Schools",
-        "addressEN": null,
-        "dbServer": null,
-        "meetingServer": "https://live.smartschool.sd/",
-        "avatarURL": "https://www.smartschool.sd/avatars/1/",
-        "videoURL": "http://www.keeti.sd/media/1/",
-        "audioURL": null,
-        "attachmentsURL": null,
-        "logo": {
-            "type": "Buffer",
-            "data": [
-                255,
-*/

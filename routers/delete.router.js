@@ -33,9 +33,9 @@ function buildDeleteQuery(query , fields , values){
     
     for(let ind = 0; ind <= fields.length-1; ind++){
         if (ind < fields.length-1){
-            query += ` ${fields[ind]} = '${values[ind]}' ,`;
+            query += ` ${fields[ind]}  ${values[ind]} ,`;
             } else if (ind == fields.length-1){
-                query += ` ${fields[ind]} = '${values[ind]}'`;
+                query += ` ${fields[ind]}  ${values[ind]}`;
             }
        }
     return query;   
@@ -53,12 +53,11 @@ dqRouter.delete('/dq', isAuth, (req , res)=>{
          
              try {
                  await pool.connect();
-                 console.log('Connected to database');
          
                  return pool;
              }
              catch(err) {
-                 return res.status(500).send("false");
+                 return res.status(500).json({response : "false"});
          
              }
          }
@@ -69,11 +68,11 @@ dqRouter.delete('/dq', isAuth, (req , res)=>{
              try {
                  const result = await DB.request().query(query);
          
-                 return res.status(200).send("true");
+                 return res.status(200).json({response : "true"});
              }
              catch (err) {
          
-                return res.status(500).send("false");
+                return res.status(500).json({response : "false"});
              }
              finally {
                  DB.close();
@@ -83,7 +82,6 @@ dqRouter.delete('/dq', isAuth, (req , res)=>{
          async function execute() {
              let result = await getAll();
          
-             //res.status(200).json(result)
             return JSON.stringify(result);
          }
          
