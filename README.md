@@ -1,6 +1,28 @@
 ﻿
 
-# Keeti Server Documentation 
+# Keeti Server 
+
+## about 
+Server For Keeti Built By Monzer Omer (Node.js Back-end Developer) Currently I have about one year experience with node.js and about two with JavaScript 
+
+
+> **Notes That I'm Responsible For Any Treads In This Server.** 
+> **The Security Level In This Server Is 0%.**
+
+
+**Connect With Me:**
+
+**Social Media :**
+@monzersmiledev
+
+**Phone Number:**
++249121601505
+
+**Email:**
+nezonru87@yahoo.com
+
+
+## Documentation
 
 ## 1. Authentication Router
 **GET   `/keeti/auth?username=&password=&token=`**
