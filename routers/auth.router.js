@@ -33,7 +33,7 @@ authRouter.get('/auth', isAuth , (req, res) => {
          const DB = await connectDB();
      
          try {
-             const result = await DB.request().query(`select * from SET_users where phone = '${req.query.username}' and status = 'Enabled' and password ='${req.query.password}'`);
+             const result = await DB.request().query(`select * from SET_users where phone = '${req.query.phone}' and status = 'Enabled' and password ='${req.query.password}'`);
      
              return result.recordset;
          }
@@ -54,58 +54,72 @@ authRouter.get('/auth', isAuth , (req, res) => {
 
     async function giveJWT(){
         let result = await execute();
-        let data = {}
-        data = result[0];
+
         if (result.length == 0){
-            return res.status(404).json(result);
+
+            return res.status(404).json({response: 'no user!'});
+
         } else {
-           let token = jwt.sign({
-            userId: result[0].id
-        }, sec , { expiresIn: '99 years' });
-        data.token = token;
+            
+            if(result[0].token){
 
-
-        async function connectToDB() {
-            const pool = new sql.ConnectionPool(db);
+                return res.status(200).json(result);
+    
+            } else {
+                let data = {}
+                data = result[0];
+                if (result.length == 0){
+                    return res.status(404).json(result);
+                } else {
+                   let token = jwt.sign({
+                    userId: result[0].id
+                }, sec , { expiresIn: '99 years' });
+                data.token = token;
         
-            try {
-                await pool.connect();
         
-                return pool;
+                async function connectToDB() {
+                    const pool = new sql.ConnectionPool(db);
+                
+                    try {
+                        await pool.connect();
+                
+                        return pool;
+                    }
+                    catch(err) {
+        
+                       return res.status(500).json(err);
+        
+                    }
+                }
+                
+                async function conDatabase() {
+                    const DB = await connectToDB();
+                
+                    try {
+                        const result = await DB.request().query(`UPDATE SET_users SET token = '${token}' WHERE phone = '${req.query.phone}'`);
+                
+                        return result.recordset;
+                    }
+                    catch (err) {
+                       return res.status(500).json(err);        
+                    }
+                    finally {
+                        DB.close();
+                    }
+                }
+                
+                async function executeQuery() {
+                   let result = await conDatabase();
+        
+                   return result
+                }
+        
+                executeQuery();
+        
+                res.status(200).json(data);
+        
+                }  
             }
-            catch(err) {
-
-               return res.status(500).json(err);
-
-            }
-        }
-        
-        async function conDatabase() {
-            const DB = await connectToDB();
-        
-            try {
-                const result = await DB.request().query(`UPDATE SET_users SET token = '${token}' WHERE phone = '${req.query.username}'`);
-        
-                return result.recordset;
-            }
-            catch (err) {
-               return res.status(500).json(err);        
-            }
-            finally {
-                DB.close();
-            }
-        }
-        
-        async function executeQuery() {
-           let result = await conDatabase();
-
-           return result
-        }
-
-        executeQuery();
-
-        res.status(200).json(data);
-
         }
     }
     giveJWT();

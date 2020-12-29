@@ -1,6 +1,6 @@
 {
   "name": "keeti",
-  "version": "2.1.0",
+  "version": "2.3.3",
   "description": "Api Application For Keeti",
   "main": "index.js",
   "scripts": {

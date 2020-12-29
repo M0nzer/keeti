@@ -13,66 +13,66 @@ module.exports = {
 
             next();
 
-        }
+        } else {
             try {
-               const decoded =  jwt.verify(token, secrut);
-               req.auth = decoded;
-        
-            } catch (err) {
-        
-                return res.status(400).json({ message: 'Authentication error!' });
-        
-            }
-
-            async function connectDB() {
-                const pool = new sql.ConnectionPool(db);
-            
-                try {
-                    await pool.connect();
-            
-                    return pool;
-                }
-                catch(err) {
+                const decoded =  jwt.verify(token, secrut);
+                req.auth = decoded;
+         
+             } catch (err) {
+         
+                 return res.status(400).json({ message: 'Authentication error!' });
+         
+             }
+ 
+             async function connectDB() {
+                 const pool = new sql.ConnectionPool(db);
              
-                    return res.status(500).json({Error: err});
-
-                }
-            }
-            
-            async function getAll() {
-                
-                
-                const DB = await connectDB();
-            
-                try {
-
-                    const result = await DB.request().query(`select * from SET_users where status = 'Enabled' and token = '${token}'`);
-
-                    return result.recordset;
-                }
-                catch (err) {
-            
-                    return err
-                }
-                finally {
-                    DB.close();
-                }
-            }
-            
-            async function execute() {
-                let result = await getAll();
-        
-                if (result.length >= 1){
-
-                    return res.status(200).json(result);
-            
-                } else {
-        
-                    return res.status(401).json(result);
-        
-                }
-            }
-         execute();
-
+                 try {
+                     await pool.connect();
+             
+                     return pool;
+                 }
+                 catch(err) {
+              
+                     return res.status(500).json({Error: err});
+ 
+                 }
+             }
+             
+             async function getAll() {
+                 
+                 
+                 const DB = await connectDB();
+             
+                 try {
+ 
+                     const result = await DB.request().query(`select * from SET_users where password ='${req.query.password}' and phone = '${req.query.phone}' and status = 'Enabled' and token = '${token}'`);
+ 
+                     return result.recordset;
+                 }
+                 catch (err) {
+             
+                     return err
+                 }
+                 finally {
+                     DB.close();
+                 }
+             }
+             
+             async function execute() {
+                 let result = await getAll();
+         
+                 if (result.length >= 1){
+ 
+                     return res.status(200).json(result);
+             
+                 } else {
+         
+                     return res.status(401).json(result);
+         
+                 }
+             }
+          execute();
+        }
     }
 }

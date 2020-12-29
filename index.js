@@ -8,10 +8,10 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 //for development
-//const cors = require('cors')
-//const morgan = require('morgan');
-//app.use(cors());
-//app.use(morgan('tiny'));
+const cors = require('cors')
+const morgan = require('morgan');
+app.use(cors());
+app.use(morgan('tiny'));
 
 
 //handle Json

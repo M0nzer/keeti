@@ -1,8 +1,8 @@
 // const jwt = require('jsonwebtoken');
 // const ch = require('child_process');
 // const {Buffer} = require('safe-buffer');
-// const db = require('./config/config').database;
-// const sql = require("mssql");
+const db = require('./config/config').database;
+const sql = require("mssql");
 
 // let hi = ch.spawn('help' , ['cd']);
 
@@ -190,56 +190,48 @@ ${condValue}
 
 // let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInNlcnZlciI6ImtlZXRpIiwiZGV2ZWxvcGVyIjoiTW9uemVyT21lciIsImlhdCI6MTYwOTA3NDQ5MSwiZXhwIjo0NzMzMjc2ODkxfQ.ZYTRX-FFnAt3MKBH1C08vDIOUnFec1NDH_dP2qpyPdU'
 
-//     async function connectDB() {
-//         const pool = new sql.ConnectionPool(db);
+    async function connectDB() {
+        const pool = new sql.ConnectionPool(db);
     
-//         try {
-//             await pool.connect();
-//             console.log('Connected to database');
+        try {
+            await pool.connect();
+            console.log('Connected to database');
     
-//             return pool;
-//         }
-//         catch(err) {
+            return pool;
+        }
+        catch(err) {
      
-//             return {error :"Database error:\n" + err};
-//         }
-//     }
+            return {error :"Database error:\n" + err};
+        }
+    }
     
-//     async function getAll() {
+    async function getAll() {
         
         
-//         const DB = await connectDB();
+        const DB = await connectDB();
     
-//         try {
-//             let query= `select id , token , phone from SET_users where status = 'Enabled' and token = '${token}'`;
-//             console.log(query);
-//             const result = await DB.request().query(query);
+        try {
+            let query= `UPDATE SET_users SET token = null where phone = '0923595393'`;
+            console.log(query);
+            const result = await DB.request().query(query);
             
-//             return result.recordset;
-//         }
-//         catch (err) {
+            return result.recordset;
+        }
+        catch (err) {
     
-//             return err
-//         }
-//         finally {
-//             DB.close();
-//         }
-//     }
+            return err
+        }
+        finally {
+            DB.close();
+        }
+    }
     
-//     async function execute() {
-//         let result = await getAll();
+    async function execute() {
+        let result = await getAll();
 
-//         if (result.length >= 1){
-//             req.authVar = 'Authenticated';
-//             next();
-    
-//         } else {
-
-//             res.status(401).send({ Error: 'Authentication Error!  Non-Authoritative Token'});
-
-//         }
-//     }
-//     execute();
+console.log('done' , result)
+    }
+    execute();
 
 
 
@@ -260,8 +252,8 @@ ${condValue}
     // console.log(testJWT(result));
 
 
-// jwt.verify('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInNlcnZlciI6ImtlZXRpIiwiZGV2ZWxvcGVyIjoiTW9uemVyT21lciIsImlhdCI6MTYwOTA3NDQ5MSwiZXhwIjo0NzMzMjc2ODkxfQ.ZYTRX-FFnAt3MKBH1C08vDIOUnFec1NDH_dP2qpyPdU' , 'omerkeeti' , function(err, decoded) {
+// jwt.verify('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwOTIzNDc0NiwiZXhwIjo0NzMzNDM3MTQ2fQ.0o5STDV8Lj7LwxWG4mCUqVGUfztS0IASYSEM3hSCfCU' , 'omerkeeti' , function(err, decoded) {
 //     console.log(decoded)
 //   });
-
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInNlcnZlciI6ImtlZXRpIiwiZGV2ZWxvcGVyIjoiTW9uemVyT21lciIsImlhdCI6MTYwOTA3NDQ5MSwiZXhwIjo0NzMzMjc2ODkxfQ.ZYTRX-FFnAt3MKBH1C08vDIOUnFec1NDH_dP2qpyPdU
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjA5MjM0OTY2LCJleHAiOjQ3MzM0MzczNjZ9.XuRTQOJc8vzpEus5fbrKubv1hgtCm9W3n3KfJ00YL3E
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInNlcnZlciI6ImtlZXRpIiwiZGV2ZWxvcGVyIjoiTW9uemVyT21lciIsImlhdCI6MTYwOTA3NDQ5MSwiZXhwIjo0NzMzMjc2ODkxfQ.ZYTRX-FFnAt3MKBH1C08vDIOUnFec1NDH_dP2qpyPdU
